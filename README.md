@@ -2,11 +2,11 @@
 
 flutter_template is a guide to setup a new flutter application with google-sign in firebase authentication and a simple bottom nav bar with routes.
 
-### Step 1 - Create a new flutter project
+## Create a new flutter project
 
 Visual Studio Code ``` ctrl + shift + P ``` Flutter: New Project
 
-### Step 2 - Add dependencies to ``` pubsec.yaml ```
+### Add dependencies to ``` pubsec.yaml ```
 
 ```
 dependencies:
@@ -23,7 +23,7 @@ dependencies:
 
 Save in Visual Studio Code or run ``` flutter pub get ``` to update changes.
 
-### Step 3 - Overwrite main.py 
+## Overwrite Files 
 
 replace ``` main.py ``` and entire ``` lib ``` folder from files of same name in repo.
 
@@ -38,7 +38,7 @@ add to ``` pubsec.yaml ```
     - assets/
 ```
 
-### Step 4 - Create and setup new Firebase project
+## Create and setup new Firebase project for Android
 
 goto ``` https://console.firebase.google.com/u/0/ ```
 
@@ -63,7 +63,7 @@ inside ``` android/app/build.grade ``` change minSdkVersion to ``` minSdkVersion
 Goto Firebase home -> build -> authentication -> sign-in method and enable google signing.
 
 
-### Step 5 - Testing Application
+## Testing Application
 
 ## Getting Started
 
