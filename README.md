@@ -1,6 +1,10 @@
-# flutter_template
+# flutter_template 
 
-A new Flutter project.
+flutter_template is a guide to setup a new flutter application with google-sign in firebase authentication and a simple bottom nav bar with routes.
+
+### Step 1 - Create a new flutter project
+
+``` ctrl + shift + P ```
 
 ## Getting Started
 
