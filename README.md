@@ -6,7 +6,7 @@ flutter_template is a guide to setup a new flutter application with google-sign 
 
 Visual Studio Code ``` ctrl + shift + P ``` Flutter: New Project
 
-### Add dependencies to ``` pubsec.yaml ```
+Add dependencies to ``` pubsec.yaml ```
 
 ```
 dependencies:
@@ -25,9 +25,9 @@ Save in Visual Studio Code or run ``` flutter pub get ``` to update changes.
 
 ## Overwrite Files 
 
-replace ``` main.py ``` and entire ``` lib ``` folder from files of same name in repo.
+replace  ``` lib ``` and ``` assets ``` folders from repo.
 
-change all ``` import 'package:<project name> ``` refrences in folders
+change all ``` import 'package:<project name> ``` refrences in all files in folders
   - test
   - lib
   - assets
@@ -35,7 +35,7 @@ change all ``` import 'package:<project name> ``` refrences in folders
 
 add to ``` pubsec.yaml ```
 ```   assets:
-    - assets/
+        - assets/
 ```
 
 ## Create and setup new Firebase project for Android
