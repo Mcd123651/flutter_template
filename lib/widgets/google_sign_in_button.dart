@@ -2,9 +2,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/screens/user_info_screen.dart';
+import 'package:flutter_template/widgets/router.dart';
 import 'package:flutter_template/utils/authentication.dart';
-import 'package:flutter_template/screens/mainscreen.dart';
 
 class GoogleSignInButton extends StatefulWidget {
   @override

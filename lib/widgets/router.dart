@@ -2,8 +2,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/screens/homescreen.dart';
-import 'package:flutter_template/screens/calendar.dart';
+import 'package:flutter_template/screens/home_screen.dart';
+import 'package:flutter_template/screens/screen_2.dart';
 import 'package:flutter_template/screens/user_info_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -26,7 +26,11 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _user = widget._user;
-    _pageRoutes = [HomePage(), CalendarPage(), UserInfoScreen(user: _user)];
+    _pageRoutes = [
+      HomePage(user: _user),
+      Screen2(user: _user),
+      UserInfoScreen(user: _user)
+    ];
   }
 
   @override
@@ -39,16 +43,16 @@ class _MainScreenState extends State<MainScreen> {
         showUnselectedLabels: false,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.call),
-            label: 'Calls',
+            icon: Icon(Icons.home),
+            label: 'home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: 'Camera',
+            icon: Icon(Icons.fact_check),
+            label: 'fact_check',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chats',
+            icon: Icon(Icons.manage_accounts),
+            label: 'manage_accounts',
           ),
         ],
         onTap: (index) {
