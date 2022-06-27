@@ -34,10 +34,10 @@ change all ``` import 'package:<project name> ``` refrences in all files in fold
 
 
 add to ``` pubsec.yaml ```
-```   
+
 assets:
   - assets/
-```
+
 
 ## Create and setup new Firebase project for Android
 
