@@ -1,13 +1,12 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/widgets/router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import '../models/userModel.dart';
 
-class Authentication {
+class AuthService {
   static SnackBar customSnackBar({required String content}) {
     return SnackBar(
       backgroundColor: Colors.black,
@@ -18,27 +17,26 @@ class Authentication {
     );
   }
 
-  static Future<FirebaseApp> initializeFirebase({
-    required BuildContext context,
-  }) async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
-
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => MainScreen(
-            user: user,
-          ),
-        ),
-      );
-    }
-
-    return firebaseApp;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // auth change user stream
+  Stream<UserModel?> get onAuthStateChanged {
+    return _auth
+        .authStateChanges()
+        //.map((User? user) => _userModelFromFirebase(user));
+        .map(_userModelFromFirebase);
   }
 
-  static Future<User?> signInWithGoogle({required BuildContext context}) async {
+  //create an userModel object based on Firebase User object
+  static UserModel? _userModelFromFirebase(User? user) {
+    if (user != null) {
+      return UserModel(uid: user.uid);
+    } else {
+      return null;
+    }
+  }
+
+  static Future<UserModel?> signInWithGoogle(
+      {required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
@@ -77,14 +75,14 @@ class Authentication {
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {
             ScaffoldMessenger.of(context).showSnackBar(
-              Authentication.customSnackBar(
+              AuthService.customSnackBar(
                 content:
                     'The account already exists with a different credential',
               ),
             );
           } else if (e.code == 'invalid-credential') {
             ScaffoldMessenger.of(context).showSnackBar(
-              Authentication.customSnackBar(
+              AuthService.customSnackBar(
                 content:
                     'Error occurred while accessing credentials. Try again.',
               ),
@@ -92,7 +90,7 @@ class Authentication {
           }
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
-            Authentication.customSnackBar(
+            AuthService.customSnackBar(
               content: 'Error occurred using Google Sign In. Try again.',
             ),
           );
@@ -100,7 +98,7 @@ class Authentication {
       }
     }
 
-    return user;
+    return _userModelFromFirebase(user);
   }
 
   static Future<void> signOut({required BuildContext context}) async {
@@ -113,7 +111,7 @@ class Authentication {
       await FirebaseAuth.instance.signOut();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        Authentication.customSnackBar(
+        AuthService.customSnackBar(
           content: 'Error signing out. Try again.',
         ),
       );

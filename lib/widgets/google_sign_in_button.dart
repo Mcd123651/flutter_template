@@ -1,9 +1,10 @@
-// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors, use_build_context_synchronously, prefer_const_literals_to_create_immutables
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors, use_build_context_synchronously, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/widgets/router.dart';
 import 'package:flutter_template/utils/authentication.dart';
+
+import '../models/userModel.dart';
 
 class GoogleSignInButton extends StatefulWidget {
   @override
@@ -34,20 +35,18 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 setState(() {
                   _isSigningIn = true;
                 });
-                User? user =
-                    await Authentication.signInWithGoogle(context: context);
+                UserModel? _userModel =
+                    await AuthService.signInWithGoogle(context: context);
 
                 setState(() {
                   _isSigningIn = false;
                 });
 
-                if (user != null) {
+                if (_userModel != null) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       // When user is not auto-signed in
-                      builder: (context) => MainScreen(
-                        user: user,
-                      ),
+                      builder: (context) => MainScreen(),
                     ),
                   );
                 }

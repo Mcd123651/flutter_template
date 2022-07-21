@@ -1,32 +1,27 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/res/custom_colors.dart';
+import 'package:provider/provider.dart';
+
+import '../models/userModel.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required User user})
-      : _user = user,
-        super(key: key);
-
-  final User _user;
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _UserHomePageState createState() => _UserHomePageState();
 }
 
 class _UserHomePageState extends State<HomePage> {
-  late User _user;
-
   @override
   void initState() {
-    _user = widget._user;
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final _userModel = Provider.of<UserModel>(context);
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
@@ -56,74 +51,7 @@ class _UserHomePageState extends State<HomePage> {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(),
-              _user.photoURL != null
-                  ? ClipOval(
-                      child: Material(
-                        color: CustomColors.firebaseGrey.withOpacity(0.3),
-                        child: Image.network(
-                          _user.photoURL!,
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    )
-                  : ClipOval(
-                      child: Material(
-                        color: CustomColors.firebaseGrey.withOpacity(0.3),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Icon(
-                            Icons.person,
-                            size: 60,
-                            color: CustomColors.firebaseGrey,
-                          ),
-                        ),
-                      ),
-                    ),
-              SizedBox(height: 16.0),
-              Text(
-                'Hello',
-                style: TextStyle(
-                  color: CustomColors.firebaseGrey,
-                  fontSize: 26,
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                _user.displayName!,
-                style: TextStyle(
-                  color: CustomColors.firebaseYellow,
-                  fontSize: 26,
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                '( ${_user.email!} )',
-                style: TextStyle(
-                  color: CustomColors.firebaseOrange,
-                  fontSize: 20,
-                  letterSpacing: 0.5,
-                ),
-              ),
-              SizedBox(height: 24.0),
-              Text(
-                'You are now signed into your google account.',
-                style: TextStyle(
-                    color: CustomColors.firebaseGrey.withOpacity(0.8),
-                    fontSize: 14,
-                    letterSpacing: 0.2),
-              ),
-              SizedBox(height: 16.0),
-              Text(
-                'HOME SCREEN',
-                style: TextStyle(
-                    color: CustomColors.firebaseGrey.withOpacity(0.8),
-                    fontSize: 20,
-                    letterSpacing: 0.2),
-              ),
-              SizedBox(height: 16.0),
-            ],
+            children: [Row(), Text(_userModel.uid)],
           ),
         ),
       ),
