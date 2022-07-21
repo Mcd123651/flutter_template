@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _pageRoutes = [const HomePage(), Screen2(), UserInfoScreen()];
+    _pageRoutes = [const HomePage(), const Screen2(), const UserInfoScreen()];
   }
 
   @override

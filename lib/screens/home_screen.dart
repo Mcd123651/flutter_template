@@ -22,6 +22,7 @@ class _UserHomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final _userModel = Provider.of<UserModel>(context);
+    print(_userModel.photoURL);
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
@@ -51,7 +52,35 @@ class _UserHomePageState extends State<HomePage> {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: [Row(), Text(_userModel.uid)],
+            children: [
+              Row(),
+              Text(_userModel.uid),
+              Text(_userModel.email ?? ''),
+              Text(_userModel.displayName ?? ''),
+              _userModel.photoURL != null
+                  ? ClipOval(
+                      child: Material(
+                        color: CustomColors.firebaseGrey.withOpacity(0.3),
+                        child: Image.network(
+                          _userModel.photoURL!,
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                    )
+                  : ClipOval(
+                      child: Material(
+                        color: CustomColors.firebaseGrey.withOpacity(0.3),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Icon(
+                            Icons.person,
+                            size: 60,
+                            color: CustomColors.firebaseGrey,
+                          ),
+                        ),
+                      ),
+                    ),
+            ],
           ),
         ),
       ),

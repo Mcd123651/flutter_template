@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/screens/home_screen.dart';
 import 'package:flutter_template/screens/sign_in_screen.dart';
-import 'package:flutter_template/utils/authenticate.dart';
 import 'package:flutter_template/widgets/router.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +12,7 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final userModel = Provider.of<UserModel?>(context);
     if (userModel == null) {
-      return const Authenticate();
+      return SignInScreen();
     } else {
       return const MainScreen();
     }

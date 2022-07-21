@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_template/res/custom_colors.dart';
-import 'package:flutter_template/screens/sign_in_screen.dart';
 import 'package:flutter_template/utils/authentication.dart';
 import 'package:flutter_template/widgets/app_bar_title.dart';
 //import 'package:acehole/widgets/bottom_nav.dart';

@@ -29,7 +29,11 @@ class AuthService {
   //create an userModel object based on Firebase User object
   static UserModel? _userModelFromFirebase(User? user) {
     if (user != null) {
-      return UserModel(uid: user.uid);
+      return UserModel(
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL);
     } else {
       return null;
     }
