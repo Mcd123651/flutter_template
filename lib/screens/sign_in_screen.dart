@@ -57,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
               ),
               FutureBuilder(
-                future: Authentication.initializeFirebase(context: context),
+                future: AuthService.signInWithGoogle(context: context),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text('Error initializing Firebase');
