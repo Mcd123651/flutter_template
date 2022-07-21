@@ -4,6 +4,7 @@ import 'package:flutter_template/res/custom_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../models/userModel.dart';
+import '../widgets/app_bar_title.dart';
 
 class Screen2 extends StatefulWidget {
   const Screen2({Key? key}) : super(key: key);
@@ -24,23 +25,9 @@ class _UserScreen2State extends State<Screen2> {
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: CustomColors.firebaseNavy,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(width: 8),
-            Text(
-              'Screen 2',
-              style: TextStyle(
-                color: CustomColors.firebaseGrey,
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
-      ),
+          elevation: 0,
+          backgroundColor: CustomColors.firebaseNavy,
+          title: AppBarTitle(title: 'Screen 2')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(

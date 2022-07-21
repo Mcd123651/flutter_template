@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/screens/home_screen.dart';
 import 'package:flutter_template/screens/screen_2.dart';
-import 'package:flutter_template/screens/user_info_screen.dart';
+import 'package:flutter_template/screens/screen_3.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);

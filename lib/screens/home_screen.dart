@@ -5,6 +5,7 @@ import 'package:flutter_template/res/custom_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../models/userModel.dart';
+import '../widgets/app_bar_title.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,27 +23,13 @@ class _UserHomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final _userModel = Provider.of<UserModel>(context);
-    print(_userModel.photoURL);
+
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: CustomColors.firebaseNavy,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(width: 8),
-            Text(
-              'Home Screen',
-              style: TextStyle(
-                color: CustomColors.firebaseGrey,
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
-      ),
+          elevation: 0,
+          backgroundColor: CustomColors.firebaseNavy,
+          title: AppBarTitle(title: 'Home Screen')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
