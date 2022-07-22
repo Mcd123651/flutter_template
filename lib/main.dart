@@ -17,8 +17,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          // stream auth user while check for auth stage changes
           StreamProvider<AuthUser?>.value(
-              initialData: null, value: AuthService().onAuthStateChanged)
+              initialData: null, value: AuthService().onAuthStateChanged),
         ],
         builder: (context, snapshot) {
           return const MaterialApp(

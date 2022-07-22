@@ -21,8 +21,7 @@ class _UserHomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final authUser = Provider.of<AuthUser>(context);
-
+    final appUser = Provider.of<AppUser>(context);
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
@@ -40,15 +39,16 @@ class _UserHomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(),
-              Text(authUser.uid),
-              Text(authUser.email ?? ''),
-              Text(authUser.displayName ?? ''),
-              authUser.photoURL != null
+              Text(appUser.uid),
+              Text(appUser.email ?? ''),
+              Text(appUser.displayName ?? ''),
+              //Text(appUser.lastSeen.toString()),
+              appUser.photoURL != null
                   ? ClipOval(
                       child: Material(
                         color: CustomColors.firebaseGrey.withOpacity(0.3),
                         child: Image.network(
-                          authUser.photoURL!,
+                          appUser.photoURL!,
                           fit: BoxFit.fitHeight,
                         ),
                       ),

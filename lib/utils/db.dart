@@ -2,11 +2,18 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
-
 import 'package:flutter_template/models/userModel.dart';
 
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  Stream<AppUser> streamAppUser(AuthUser authUser) {
+    return _db
+        .collection('users')
+        .doc(authUser.uid)
+        .snapshots()
+        .map((document) => AppUser.fromMap(document, document.id));
+  }
 
   /// Write data
   Future<void> createUser(AuthUser authUser) {
