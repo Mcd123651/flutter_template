@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/screens/sign_in_screen.dart';
+import 'package:flutter_template/utils/db.dart';
 import 'package:flutter_template/utils/router.dart';
 import 'package:provider/provider.dart';
 
@@ -10,10 +11,11 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userModel = Provider.of<UserModel?>(context);
-    if (userModel == null) {
+    final authUser = Provider.of<AuthUser?>(context);
+    if (authUser == null) {
       return SignInScreen();
     } else {
+      DatabaseService().createUser(authUser);
       return const MainScreen();
     }
   }

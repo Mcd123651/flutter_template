@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          StreamProvider<UserModel?>.value(
+          StreamProvider<AuthUser?>.value(
               initialData: null, value: AuthService().onAuthStateChanged)
         ],
         builder: (context, snapshot) {

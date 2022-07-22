@@ -19,7 +19,7 @@ class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   // auth change user stream
-  Stream<UserModel?> get onAuthStateChanged {
+  Stream<AuthUser?> get onAuthStateChanged {
     return _auth
         .authStateChanges()
         //.map((User? user) => _userModelFromFirebase(user));
@@ -27,9 +27,9 @@ class AuthService {
   }
 
   //create an userModel object based on Firebase User object
-  static UserModel? _userModelFromFirebase(User? user) {
+  static AuthUser? _userModelFromFirebase(User? user) {
     if (user != null) {
-      return UserModel(
+      return AuthUser(
           uid: user.uid,
           email: user.email,
           displayName: user.displayName,
@@ -39,7 +39,7 @@ class AuthService {
     }
   }
 
-  static Future<UserModel?> signInWithGoogle(
+  static Future<AuthUser?> signInWithGoogle(
       {required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;

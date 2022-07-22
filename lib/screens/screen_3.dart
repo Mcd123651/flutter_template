@@ -23,7 +23,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _userModel = Provider.of<UserModel>(context);
+    final authUser = Provider.of<AuthUser>(context);
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
@@ -43,12 +43,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             children: [
               Row(),
               Row(),
-              _userModel.photoURL != null
+              authUser.photoURL != null
                   ? ClipOval(
                       child: Material(
                         color: CustomColors.firebaseGrey.withOpacity(0.3),
                         child: Image.network(
-                          _userModel.photoURL!,
+                          authUser.photoURL!,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -76,7 +76,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               SizedBox(height: 8.0),
               Text(
-                _userModel.displayName!,
+                authUser.displayName!,
                 style: TextStyle(
                   color: CustomColors.firebaseYellow,
                   fontSize: 26,
@@ -84,7 +84,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               SizedBox(height: 8.0),
               Text(
-                '( ${_userModel.email!} )',
+                '( ${authUser.email!} )',
                 style: TextStyle(
                   color: CustomColors.firebaseOrange,
                   fontSize: 20,

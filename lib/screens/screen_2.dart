@@ -21,7 +21,7 @@ class _UserScreen2State extends State<Screen2> {
 
   @override
   Widget build(BuildContext context) {
-    final _userModel = Provider.of<UserModel>(context);
+    final authUser = Provider.of<AuthUser>(context);
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
@@ -37,7 +37,7 @@ class _UserScreen2State extends State<Screen2> {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: [Row(), Text(_userModel.uid)],
+            children: [Row(), Text(authUser.uid)],
           ),
         ),
       ),

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/res/custom_colors.dart';
 import 'package:provider/provider.dart';
-
 import '../models/userModel.dart';
 import '../widgets/app_bar_title.dart';
 
@@ -22,7 +21,7 @@ class _UserHomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final _userModel = Provider.of<UserModel>(context);
+    final authUser = Provider.of<AuthUser>(context);
 
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
@@ -41,15 +40,15 @@ class _UserHomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(),
-              Text(_userModel.uid),
-              Text(_userModel.email ?? ''),
-              Text(_userModel.displayName ?? ''),
-              _userModel.photoURL != null
+              Text(authUser.uid),
+              Text(authUser.email ?? ''),
+              Text(authUser.displayName ?? ''),
+              authUser.photoURL != null
                   ? ClipOval(
                       child: Material(
                         color: CustomColors.firebaseGrey.withOpacity(0.3),
                         child: Image.network(
-                          _userModel.photoURL!,
+                          authUser.photoURL!,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
