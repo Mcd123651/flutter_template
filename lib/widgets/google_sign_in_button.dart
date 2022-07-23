@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/utils/authentication.dart';
 
+import '../wrapper.dart';
+
 class GoogleSignInButton extends StatefulWidget {
   @override
   _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
@@ -24,6 +26,10 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
         ),
         onPressed: () async {
           await AuthService.signInWithGoogle(context: context);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const Wrapper()),
+              (route) => false);
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

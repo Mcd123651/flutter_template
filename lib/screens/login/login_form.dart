@@ -6,6 +6,7 @@ import 'package:flutter_template/utils/authentication.dart';
 import '../../res/custom_colors.dart';
 import '../../widgets/google_sign_in_button.dart';
 import '../../widgets/textfield_email.dart';
+import '../../wrapper.dart';
 import '../signup/sign_up_screen.dart';
 
 class LoginForm extends StatefulWidget {
@@ -86,6 +87,10 @@ class _LoginForm extends State<LoginForm> {
                       emailController.text,
                       passwordController.text,
                     );
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (_) => const Wrapper()),
+                        (route) => false);
                   },
                   style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
