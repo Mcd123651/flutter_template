@@ -1,4 +1,5 @@
 // ignore_for_file: use_key_in_widget_constructors
+// https://stackoverflow.com/questions/61930007/how-to-solve-execution-failed-for-task-appcompileflutterbuilddebug
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/utils/authentication.dart';
