@@ -35,8 +35,8 @@ class AppUser {
     data = data ?? {};
     return AppUser(
       uid: id,
-      email: data['email'],
-      displayName: data['displayName'],
+      email: data['email'] ?? '',
+      displayName: data['displayName'] ?? '',
       photoURL: data['photoURL'],
       lastSeen: data['lastSeen'],
     );

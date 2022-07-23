@@ -25,9 +25,10 @@ class _UserHomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
-          elevation: 0,
-          backgroundColor: CustomColors.firebaseNavy,
-          title: AppBarTitle(title: 'Home Screen')),
+        elevation: 0,
+        backgroundColor: CustomColors.firebaseNavy,
+        title: AppBarTitle(title: 'Home Screen'),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(

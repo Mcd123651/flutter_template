@@ -23,11 +23,11 @@ class AuthService {
     return _auth
         .authStateChanges()
         //.map((User? user) => _userModelFromFirebase(user));
-        .map(_userModelFromFirebase);
+        .map(_authUserFromFirebase);
   }
 
   //create an userModel object based on Firebase User object
-  static AuthUser? _userModelFromFirebase(User? user) {
+  static AuthUser? _authUserFromFirebase(User? user) {
     if (user != null) {
       return AuthUser(
           uid: user.uid,
@@ -37,6 +37,33 @@ class AuthService {
     } else {
       return null;
     }
+  }
+
+  Future<AuthUser?> signInWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    final credential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return _authUserFromFirebase(credential.user);
+  }
+
+  Future<AuthUser?> createUserWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    final credential = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return _authUserFromFirebase(credential.user);
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    await _auth.sendPasswordResetEmail(email: email);
+    return;
   }
 
   static Future<AuthUser?> signInWithGoogle(
@@ -102,7 +129,7 @@ class AuthService {
       }
     }
 
-    return _userModelFromFirebase(user);
+    return _authUserFromFirebase(user);
   }
 
   static Future<void> signOut({required BuildContext context}) async {
