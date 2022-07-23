@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/res/custom_colors.dart';
 import 'package:flutter_template/screens/login/login_screen.dart';
-import 'package:flutter_template/utils/router.dart';
-
 import '../../utils/authentication.dart';
 import '../../utils/show_message_helper.dart';
 import '../../wrapper.dart';
