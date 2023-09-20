@@ -47,7 +47,6 @@ service cloud.firestore {
 }
 ```
 
-
 ## Connecting to Firebase Services
 
 You no longer need to manually add the google-services.json file to Android and the GoogleService-Info.plist file to the iOS runner directory.
