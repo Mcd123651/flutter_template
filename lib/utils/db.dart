@@ -36,6 +36,12 @@ class DatabaseService {
         .catchError((error) => print("Failed to merge data: $error"));
   }
 
+  Future<AppUser?> createUserAndFetch(AuthUser authUser) async {
+    await DatabaseService().createUser(authUser);
+    return DatabaseService()
+        .getUser(authUser.uid); // Assuming getUser returns a Future<AppUser?>
+  }
+
   Future<AppUser?> getUser(String uid) async {
     try {
       DocumentSnapshot userSnapshot =

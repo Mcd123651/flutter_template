@@ -19,11 +19,19 @@ class AuthWrapper extends StatelessWidget {
     if (authUser == null) {
       return const LoginScreen();
     } else {
-      return FutureBuilder<bool>(
-        future: _dbService.doesUserExist(authUser),
+      return FutureBuilder<AppUser?>(
+        future: _dbService.createUserAndFetch(authUser),
         builder: (context, snapshot) {
-          // If we're still waiting for the check, return a loader
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return ErrorScreen(error: snapshot.error.toString());
+            }
+            return StreamProvider<AppUser?>.value(
+              initialData: null,
+              value: _dbService.streamAppUser(authUser),
+              child: const UserDataWrapper(),
+            );
+          } else {
             return const Scaffold(
               backgroundColor: Colors.white,
               body: Center(
@@ -33,21 +41,48 @@ class AuthWrapper extends StatelessWidget {
               ),
             );
           }
-
-          // If the user doesn't exist in the DB, create them
-          if (!snapshot.data!) {
-            DatabaseService().createUser(authUser);
-          }
-
-          // Now proceed to stream the AppUser
-          return StreamProvider<AppUser?>.value(
-            initialData: null,
-            value: DatabaseService().streamAppUser(authUser),
-            child: const UserDataWrapper(),
-          );
         },
       );
     }
+  }
+}
+
+// ErrorScreen widget to display errors
+class ErrorScreen extends StatelessWidget {
+  final String error;
+
+  const ErrorScreen({super.key, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Error Occurred")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Icon(Icons.error_outline, color: Colors.red, size: 60.0),
+            const SizedBox(height: 20),
+            const Text(
+              "Oops! An error occurred.",
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(error),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Pop the current screen
+              },
+              child: const Text("Try Again"),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
 

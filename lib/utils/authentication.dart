@@ -43,30 +43,40 @@ class AuthService {
 
   // ... other methods ...
   Future<AuthUser?> signInWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
-    final credential = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return _authUserFromFirebase(credential.user);
+      String email, String password) async {
+    try {
+      final credential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return _authUserFromFirebase(credential.user);
+    } catch (e) {
+      // ignore: avoid_print
+      print("Error during sign-in: $e");
+      return null;
+    }
   }
 
+  // Create a user with email and password
   Future<AuthUser?> createUserWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
-    final credential = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return _authUserFromFirebase(credential.user);
+      String email, String password) async {
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return _authUserFromFirebase(credential.user);
+    } catch (e) {
+      // ignore: avoid_print
+      print("Error during account creation: $e");
+      return null;
+    }
   }
 
+  // Reset password
   Future<void> resetPassword({required String email}) async {
-    await _auth.sendPasswordResetEmail(email: email);
-    return;
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      // ignore: avoid_print
+      print("Error resetting password: $e");
+    }
   }
 
   static Future<AuthUser?> signInWithGoogle(
