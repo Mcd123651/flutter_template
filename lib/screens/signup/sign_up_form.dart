@@ -1,15 +1,14 @@
-// Required Firebase and Flutter packages
+// Flutter and Firebase package imports.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-// Internal imports for functionalities, utilities, and screens
+// Relative imports.
 import 'package:flutter_template/res/custom_colors.dart';
 import 'package:flutter_template/screens/login/login_screen.dart';
 import '../../utils/authentication.dart';
 import '../../utils/show_message_helper.dart';
 import '../../wrapper.dart';
 
-// This widget represents the Sign Up form on the registration screen.
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
 
@@ -18,19 +17,16 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  // Controllers for capturing user inputs
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _passwordConfirmController;
 
-  // Variables for controlling password visibility
   bool _visibility = true;
   bool _visibilityConf = true;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the text controllers
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _passwordConfirmController = TextEditingController();
@@ -38,21 +34,22 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   void dispose() {
-    // Clean up the text controllers to avoid memory leaks
     _emailController.dispose();
     _passwordController.dispose();
     _passwordConfirmController.dispose();
     super.dispose();
   }
 
-  // Method to handle user registration
+  bool _isValidEmail(String email) => email.isNotEmpty && email.contains('@');
+
+  bool _isValidPassword(String password) =>
+      password.isNotEmpty && password.length >= 8;
+
   Future<void> _signUp() async {
-    // Various checks for input validity
-    if (_emailController.text.isEmpty || !_emailController.text.contains('@')) {
+    if (!_isValidEmail(_emailController.text)) {
       ShowMessageHelper.showMessage(context: context, text: 'Check Email');
       return;
-    } else if (_passwordController.text.isEmpty ||
-        _passwordController.text.length < 8) {
+    } else if (!_isValidPassword(_passwordController.text)) {
       ShowMessageHelper.showMessage(
           context: context,
           text: 'Check password, password must be greater than 8');
@@ -64,25 +61,22 @@ class _SignUpFormState extends State<SignUpForm> {
       return;
     }
 
-    // Show a loading indicator while performing the registration
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ));
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
 
     try {
-      // Call the authentication service to create a new user account
       AuthService().createUserWithEmailAndPassword(
         _emailController.text,
         _passwordController.text,
       );
-      // Redirect user to the main app screen after successful registration
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (_) => AuthWrapper()), (route) => false);
     } on FirebaseAuthException catch (e) {
-      // Handle specific Firebase errors
       if (e.code == 'weak-password') {
         ShowMessageHelper.showMessage(
             context: context, text: 'The password provided is too weak.');
@@ -91,7 +85,6 @@ class _SignUpFormState extends State<SignUpForm> {
             context: context, text: 'email-already-in-use');
       }
     } catch (e) {
-      // Catch all other exceptions and display an error message
       ShowMessageHelper.showMessage(context: context, text: 'Error $e');
     }
   }
