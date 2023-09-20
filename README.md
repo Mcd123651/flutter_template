@@ -250,3 +250,10 @@ google-services.json
 ## Test
 
 Test the application out on an emulator.
+
+
+## FAQ
+
+1. Google Sign-in not working
+  a. Make sure your google-services.json is inside `android/app/` directory.
+  b. If you are reusing a Firebase project ensure you have the correct SHA1 key in Firebase. Then download google-services.json and update.
