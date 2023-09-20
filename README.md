@@ -35,6 +35,19 @@ I am using Visual Studio Code on a Windows 11 machine for this tutorial.
 
 8. Goto Firebase home -> build -> authentication -> sign-in method and enable google signing.
 
+9. Navigate home -> build -> Firestore Database and create a database. Click on the **Rules** tab and change the rule to:
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
+
 ## Connecting to Firebase Services
 
 You no longer need to manually add the google-services.json file to Android and the GoogleService-Info.plist file to the iOS runner directory.
@@ -160,83 +173,6 @@ Go trough each file and change all ``` import 'package:<project name> ``` refren
   - assets
 
 
-## Create and setup new Firebase project for Android
-
-1. goto ``` https://console.firebase.google.com/u/0/ ```
-
-2. select ```Add Project```
-
-3. enter new project name ( example: ```fluttertemplate``` )
-
-4. click ```Android icon``` to initilize Android setup.
-
-5. locate package name at ``` android/app/build.grade ```  variable name applicationId ( example: ``` com.example.flutter_template ``` )
-
-6. create ```appnickname```
-
-7. for SHA information see the section below **[Authenticating Your Client](#authenticatingyourclient)**
-
-8. Goto Firebase home -> build -> authentication -> sign-in method and enable google signing.
-
-
-## Authenticating Your Client
- Since we will use Google Sign-In for our chat application, Firebase requires SHA-1 and SHA-256 certificates to be added to our Android app inside the Firebase project. Again, you can go through this [document](https://developers.google.com/android/guides/client-auth) to read all about it.
-
-The `keytool` can be found in the Android SDK folderpath. For example:<br>
-`C:\Program Files\Android\Android Studio\jbr\bin`
-or `<path>\Android Studio\jre\bin`
-
- 1. For this tutorial we will be doing the self-signing of the application. Open a terminal and run the `keytool` utility provided with Java to get the SHA-1 fingerprint of the certificate. You should get both the release and debug certificate fingerprints. <br><br>
- To get the release certificate fingerprint:<br>
-    `keytool -list -v -alias <your-key-name> -keystore <path-to-production-keystore>`<br>
- To get the debug certificate fingerprint:<br>
-    `keytool -list -v -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore`<br><br>
-The keytool utility prompts you to enter a password for the keystore. The default password for the debug keystore is android. The keytool then prints the fingerprint to the terminal. For example:<br>
-`Certificate fingerprint: SHA1: DA:39:A3:EE:5E:6B:4B:0D:32:55:BF:EF:95:60:18:90:AF:D8:07:09`
-
-2. Example debug command to run in terminal:<br>
-```
-cd "C:\Program Files\Android\Android Studio\jbr\bin"
-```
-```
-keytool -list -v -keystore "C:\Users\<user>\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
-```
-or
-```
-.\keytool -list -v -keystore "C:\Users\<user>\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
-```
-Copy the SHA-1 and SHA-256 certificate fingerprints and add them to the project settings inside your Firebase project, under [Android App](https://console.firebase.google.com/).<br>
-Click on the project. Goto `Project settings -> General -> Your apps`
-
-3. Inside your Firebase project, click on the Authentication tab (in the Build category), click on the Sign-in method, and under Sign-in providers, add Google by toggling enable.
-
-4. Click on the Firestore Database and Create a database.
-
-5. Click on Firebase Storage and Create new storage.
-
-6. Go to Firebase project settings, click on Apple Apps, and download the GoogleServices-Info.plist file<br>
-I know I mentioned earlier that you do not need to add the GoogleServices file to the iOS app. Since we will use the Google Sign-In package, iOS integration documentation on the [pub.dev](https://pub.dev/packages/google_sign_in) website says otherwise. You have to add CFBundleURLTypes attributes given below in the ios/Runner/Info.plist file:
-    ```
-    !-- Put me in the [my_project]/ios/Runner/Info.plist file -->
-    <!-- Google Sign-in Section -->
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <!-- TODO Replace this value: -->
-                <!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-                <string>com.googleusercontent.apps.861823949799-vc35cprkp249096uujjn0vvnmcvjppkn</string>
-            </array>
-        </dict>
-    </array>
-    <!-- End of the Google Sign-in Section -->
-    ```
-    Now you have successfully configured your Android and iOS application with Firebase. We are creating a Flutter chat application, but platform-specific integrations are required for the Google Sign-In to work correctly.
-
-
 ## Connecting to git
 
 If you want to sync to a git reposetory make sure you add the following to .gitignore:
@@ -255,5 +191,7 @@ Test the application out on an emulator.
 ## FAQ
 
 1. Google Sign-in not working
-  a. Make sure your google-services.json is inside `android/app/` directory.
-  b. If you are reusing a Firebase project ensure you have the correct SHA1 key in Firebase. Then download google-services.json and update.
+
+    1. Make sure your google-services.json is inside `android/app/` directory.
+  
+    2. If you are reusing a Firebase project ensure you have the correct SHA1 key in Firebase. Then download google-services.json and update.
