@@ -14,8 +14,8 @@ class SignUpScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: CustomColors.firebaseNavy,
         ),
-        child: Stack(
-          children: const [
+        child: const Stack(
+          children: [
             Positioned(
                 right: 40.0,
                 top: 95.0,

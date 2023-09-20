@@ -15,11 +15,16 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  var _pageRoutes;
+  // Moved routes here instead of initState
+  final List<Widget> _pageRoutes = [
+    const HomePage(),
+    const Screen2(),
+    const UserInfoScreen()
+  ];
+
   @override
   void initState() {
     super.initState();
-    _pageRoutes = [const HomePage(), const Screen2(), const UserInfoScreen()];
   }
 
   @override
@@ -28,21 +33,12 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'home',
-          ),
+              icon: Icon(Icons.fact_check), label: 'fact_check'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fact_check),
-            label: 'fact_check',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.manage_accounts),
-            label: 'manage_accounts',
-          ),
+              icon: Icon(Icons.manage_accounts), label: 'manage_accounts'),
         ],
         onTap: (index) {
           setState(() {

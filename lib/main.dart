@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
               initialData: null, value: AuthService().onAuthStateChanged),
         ],
         builder: (context, snapshot) {
-          return const MaterialApp(
+          return MaterialApp(
             home: Wrapper(),
           );
         });

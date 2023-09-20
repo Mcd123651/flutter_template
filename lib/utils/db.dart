@@ -30,7 +30,9 @@ class DatabaseService {
           },
           SetOptions(merge: true),
         )
+        // ignore: avoid_print
         .then((value) => print("'Merge complete"))
+        // ignore: avoid_print
         .catchError((error) => print("Failed to merge data: $error"));
   }
 }

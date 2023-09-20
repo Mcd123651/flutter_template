@@ -7,25 +7,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import '../models/userModel.dart';
 
 class AuthService {
-  static SnackBar customSnackBar({required String content}) {
-    return SnackBar(
-      backgroundColor: Colors.black,
-      content: Text(
-        content,
-        style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
-      ),
-    );
-  }
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // auth change user stream
-  Stream<AuthUser?> get onAuthStateChanged {
-    return _auth
-        .authStateChanges()
-        //.map((User? user) => _userModelFromFirebase(user));
-        .map(_authUserFromFirebase);
-  }
 
+  // Moved to top for better organization
   //create an userModel object based on Firebase User object
   static AuthUser? _authUserFromFirebase(User? user) {
     if (user != null) {
@@ -39,6 +23,25 @@ class AuthService {
     }
   }
 
+  static SnackBar customSnackBar({required String content}) {
+    return SnackBar(
+      backgroundColor: Colors.black,
+      content: Text(
+        content,
+        style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
+      ),
+    );
+  }
+
+  // auth change user stream
+  Stream<AuthUser?> get onAuthStateChanged {
+    return _auth
+        .authStateChanges()
+        //.map((User? user) => _userModelFromFirebase(user));
+        .map(_authUserFromFirebase);
+  }
+
+  // ... other methods ...
   Future<AuthUser?> signInWithEmailAndPassword(
     String email,
     String password,
@@ -71,33 +74,61 @@ class AuthService {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
-
-    if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
+    if (kIsWeb) {
+      GoogleAuthProvider authProvider = GoogleAuthProvider();
 
       try {
         final UserCredential userCredential =
-            await auth.signInWithCredential(credential);
+            await auth.signInWithPopup(authProvider);
 
         user = userCredential.user;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'account-exists-with-different-credential') {
-          // handle the error here
-        } else if (e.code == 'invalid-credential') {
-          // handle the error here
-        }
       } catch (e) {
-        // handle the error here
+        // ignore: avoid_print
+        print(e);
+      }
+    } else {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
+        try {
+          final UserCredential userCredential =
+              await auth.signInWithCredential(credential);
+
+          user = userCredential.user;
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'account-exists-with-different-credential') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              AuthService.customSnackBar(
+                content:
+                    'The account already exists with a different credential',
+              ),
+            );
+          } else if (e.code == 'invalid-credential') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              AuthService.customSnackBar(
+                content:
+                    'Error occurred while accessing credentials. Try again.',
+              ),
+            );
+          }
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            AuthService.customSnackBar(
+              content: 'Error occurred using Google Sign In. Try again.',
+            ),
+          );
+        }
       }
     }
 

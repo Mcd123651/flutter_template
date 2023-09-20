@@ -9,7 +9,9 @@ import 'models/userModel.dart';
 // if not auth: go to sign in screen
 // if auth: stream the AppUser ( Wrapper 2 )
 class Wrapper extends StatelessWidget {
-  const Wrapper({Key? key}) : super(key: key);
+  Wrapper({Key? key}) : super(key: key);
+
+  final _dbService = DatabaseService(); // Single instance
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +19,10 @@ class Wrapper extends StatelessWidget {
     if (authUser == null) {
       return const LoginScreen();
     } else {
-      DatabaseService().createUser(authUser);
+      _dbService.createUser(authUser); // Reuse instance
       return StreamProvider<AppUser?>.value(
         initialData: null,
-        value: DatabaseService().streamAppUser(authUser),
+        value: _dbService.streamAppUser(authUser), // Reuse instance
         child: const Wrapper2(),
       );
     }
