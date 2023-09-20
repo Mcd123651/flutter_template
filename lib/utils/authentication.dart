@@ -1,4 +1,6 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// This directive tells the analyzer to ignore certain rules. You've ignored rules related
+// to using const constructors and using build context synchronously.
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +8,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../models/userModel.dart';
 
+/// `AuthService` class: Manages user authentication functions with Firebase and Google.
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Moved to top for better organization
-  //create an userModel object based on Firebase User object
+  // Helper method: Converts Firebase's User object to a custom AuthUser model.
   static AuthUser? _authUserFromFirebase(User? user) {
     if (user != null) {
       return AuthUser(
@@ -23,6 +25,7 @@ class AuthService {
     }
   }
 
+  // Helper method: Creates a custom snackbar with a specific content message.
   static SnackBar customSnackBar({required String content}) {
     return SnackBar(
       backgroundColor: Colors.black,
@@ -33,15 +36,13 @@ class AuthService {
     );
   }
 
-  // auth change user stream
+  // Stream that emits AuthUser whenever the authentication state changes in Firebase.
   Stream<AuthUser?> get onAuthStateChanged {
-    return _auth
-        .authStateChanges()
-        //.map((User? user) => _userModelFromFirebase(user));
-        .map(_authUserFromFirebase);
+    return _auth.authStateChanges().map(_authUserFromFirebase);
   }
 
-  // ... other methods ...
+  // Sign in user with email and password on Firebase.
+  // Returns an AuthUser on success, null on failure.
   Future<AuthUser?> signInWithEmailAndPassword(
       String email, String password) async {
     try {
@@ -49,13 +50,13 @@ class AuthService {
           email: email, password: password);
       return _authUserFromFirebase(credential.user);
     } catch (e) {
-      // ignore: avoid_print
       print("Error during sign-in: $e");
       return null;
     }
   }
 
-  // Create a user with email and password
+  // Create a new user account on Firebase with email and password.
+  // Returns an AuthUser on success, null on failure.
   Future<AuthUser?> createUserWithEmailAndPassword(
       String email, String password) async {
     try {
@@ -63,49 +64,45 @@ class AuthService {
           email: email, password: password);
       return _authUserFromFirebase(credential.user);
     } catch (e) {
-      // ignore: avoid_print
       print("Error during account creation: $e");
       return null;
     }
   }
 
-  // Reset password
+  // Reset the password for the email account on Firebase.
   Future<void> resetPassword({required String email}) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      // ignore: avoid_print
       print("Error resetting password: $e");
     }
   }
 
+  // Sign in user using Google authentication.
+  // Returns an AuthUser on success, null on failure.
   static Future<AuthUser?> signInWithGoogle(
       {required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
+    // Different procedures for web and non-web platforms.
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
-
       try {
         final UserCredential userCredential =
             await auth.signInWithPopup(authProvider);
-
         user = userCredential.user;
       } catch (e) {
-        // ignore: avoid_print
         print(e);
       }
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
-
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
-
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
@@ -114,9 +111,9 @@ class AuthService {
         try {
           final UserCredential userCredential =
               await auth.signInWithCredential(credential);
-
           user = userCredential.user;
         } on FirebaseAuthException catch (e) {
+          // Handle specific Firebase errors with meaningful messages.
           if (e.code == 'account-exists-with-different-credential') {
             ScaffoldMessenger.of(context).showSnackBar(
               AuthService.customSnackBar(
@@ -141,13 +138,12 @@ class AuthService {
         }
       }
     }
-
     return _authUserFromFirebase(user);
   }
 
+  // Sign out the currently authenticated user.
   static Future<void> signOut({required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
-
     try {
       if (!kIsWeb) {
         await googleSignIn.signOut();

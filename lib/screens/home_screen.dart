@@ -1,4 +1,5 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
+// Import statements.
+// ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:flutter_template/res/custom_colors.dart';
@@ -6,14 +7,18 @@ import 'package:provider/provider.dart';
 import '../models/userModel.dart';
 import '../widgets/app_bar_title.dart';
 
+// HomePage widget is a StatefulWidget.
 class HomePage extends StatefulWidget {
+  // Constructor for the HomePage widget.
   const HomePage({Key? key}) : super(key: key);
 
+  // Creating the state for HomePage.
   @override
   _UserHomePageState createState() => _UserHomePageState();
 }
 
 class _UserHomePageState extends State<HomePage> {
+  // initState() method. Currently, it's just calling the parent's initState.
   @override
   void initState() {
     super.initState();
@@ -21,14 +26,22 @@ class _UserHomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Using Provider to get the user data from the AppUser model.
     final appUser = Provider.of<AppUser>(context);
+
+    // The main scaffold of the HomePage.
     return Scaffold(
+      // Using a custom color for the background.
       backgroundColor: CustomColors.firebaseNavy,
+
+      // App bar with a custom title and background color.
       appBar: AppBar(
         elevation: 0,
         backgroundColor: CustomColors.firebaseNavy,
         title: AppBarTitle(title: 'Home Screen'),
       ),
+
+      // Main content of the HomePage.
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -38,12 +51,16 @@ class _UserHomePageState extends State<HomePage> {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+
+            // Displaying user-specific details.
             children: [
-              Row(),
-              Text(appUser.uid),
-              Text(appUser.email ?? ''),
-              Text(appUser.displayName ?? ''),
-              //Text(appUser.lastSeen.toString()),
+              // Empty Row widget - possibly a placeholder for future use.
+              const Row(),
+              Text(appUser.uid), // User ID
+              Text(appUser.email ?? ''), // User email
+              Text(appUser.displayName ?? ''), // User display name
+
+              // Checking if user has a photo. If yes, it displays the photo, otherwise a default icon.
               appUser.photoURL != null
                   ? ClipOval(
                       child: Material(
@@ -71,7 +88,6 @@ class _UserHomePageState extends State<HomePage> {
           ),
         ),
       ),
-      //  bottomNavigationBar: BottomNavBar(),
     );
   }
 }

@@ -9,6 +9,7 @@ import '../../widgets/textfield_email.dart';
 import '../../wrapper.dart';
 import '../signup/sign_up_screen.dart';
 
+/// LoginForm widget that represents the user interface for logging in.
 class LoginForm extends StatefulWidget {
   @override
   _LoginForm createState() => _LoginForm();
@@ -19,6 +20,7 @@ class _LoginForm extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    // Controllers for the email and password input fields.
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
@@ -26,6 +28,7 @@ class _LoginForm extends State<LoginForm> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Welcome text.
         const SizedBox(height: 100.0),
         const Text(
           'Hello,',
@@ -43,13 +46,17 @@ class _LoginForm extends State<LoginForm> {
           ),
         ),
         const SizedBox(height: 50.0),
+
+        // Email input widget.
         TextFieldEmail(emailController: emailController),
         const SizedBox(height: 8.0),
+        // Password input field with an option to toggle visibility.
         TextField(
           controller: passwordController,
           obscureText: _visibility,
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
+            // ... (styles and icons for password field)
             labelStyle: const TextStyle(color: Colors.white70),
             floatingLabelStyle: const TextStyle(color: Colors.white70),
             border: const OutlineInputBorder(),
@@ -76,8 +83,10 @@ class _LoginForm extends State<LoginForm> {
           ),
         ),
         const SizedBox(height: 18.0),
+        // Login button which triggers the login process.
         Row(
           children: [
+            // ... (ElevatedButton with styling and onPressed logic)
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
@@ -117,7 +126,9 @@ class _LoginForm extends State<LoginForm> {
             )
           ],
         ),
+        // Google Sign-In button.
         Padding(
+          // ... (GoogleSignInButton with padding)
           padding: EdgeInsets.symmetric(vertical: 8.0),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -126,7 +137,9 @@ class _LoginForm extends State<LoginForm> {
                 GoogleSignInButton(),
               ]),
         ),
+        // Option to navigate to reset password page.
         Padding(
+          // ... (GestureDetector for 'Forgot Password' with padding)
           padding: EdgeInsets.only(
             top: 50,
           ),
@@ -151,6 +164,7 @@ class _LoginForm extends State<LoginForm> {
             ],
           ),
         ),
+        // Option to navigate to the sign-up page.
         GestureDetector(
           onTap: () => Navigator.push(context,
               MaterialPageRoute(builder: (context) => const SignUpScreen())),

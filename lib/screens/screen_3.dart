@@ -8,6 +8,7 @@ import 'package:flutter_template/widgets/app_bar_title.dart';
 import 'package:provider/provider.dart';
 //import 'package:acehole/widgets/bottom_nav.dart';
 
+// UserInfoScreen is a StatefulWidget.
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key? key}) : super(key: key);
 
@@ -23,14 +24,22 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Using Provider to fetch the user data from the AppUser model.
     final appUser = Provider.of<AppUser>(context);
+
+    // The main scaffold of the UserInfoScreen.
     return Scaffold(
+      // Setting background color.
       backgroundColor: CustomColors.firebaseNavy,
+
+      // AppBar with title 'Profile'.
       appBar: AppBar(
         elevation: 0,
         backgroundColor: CustomColors.firebaseNavy,
         title: AppBarTitle(title: 'Profile'),
       ),
+
+      // Main content of the UserInfoScreen.
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -40,9 +49,14 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+
+            // List of widgets displayed on the screen.
             children: [
+              // Two empty Row widgets, possibly placeholders for future content.
               Row(),
               Row(),
+
+              // Displaying the user's profile photo or a placeholder icon if the photo URL is null.
               appUser.photoURL != null
                   ? ClipOval(
                       child: Material(
@@ -67,6 +81,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       ),
                     ),
               SizedBox(height: 16.0),
+              // Greeting text 'Hello' and the user's display name.
               Text(
                 'Hello',
                 style: TextStyle(
@@ -83,6 +98,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 ),
               ),
               SizedBox(height: 8.0),
+              // Displaying the user's email.
               Text(
                 '( ${appUser.email!} )',
                 style: TextStyle(
@@ -92,6 +108,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 ),
               ),
               SizedBox(height: 24.0),
+              // Information about signing out.
               Text(
                 'You are now signed in using your Google account. To sign out of your account click the "Sign Out" button below.',
                 style: TextStyle(
@@ -111,6 +128,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     ),
                   ),
                 ),
+                // Sign Out button which, when pressed, will call the signOut method from AuthService.
                 onPressed: () async {
                   await AuthService.signOut(context: context);
                 },
@@ -131,7 +149,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           ),
         ),
       ),
-      //  bottomNavigationBar: BottomNavBar(),
     );
   }
 }
