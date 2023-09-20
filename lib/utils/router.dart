@@ -5,14 +5,14 @@ import 'package:flutter_template/screens/home_screen.dart';
 import 'package:flutter_template/screens/screen_2.dart';
 import 'package:flutter_template/screens/screen_3.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class RouterScreen extends StatefulWidget {
+  const RouterScreen({Key? key}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<RouterScreen> {
   int _selectedIndex = 0;
 
   // Moved routes here instead of initState

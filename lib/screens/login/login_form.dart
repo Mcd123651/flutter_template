@@ -89,7 +89,7 @@ class _LoginForm extends State<LoginForm> {
                     );
                     Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (_) => Wrapper()),
+                        MaterialPageRoute(builder: (_) => AuthWrapper()),
                         (route) => false);
                   },
                   style: ElevatedButton.styleFrom(

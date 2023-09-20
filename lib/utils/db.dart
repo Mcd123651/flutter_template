@@ -35,4 +35,27 @@ class DatabaseService {
         // ignore: avoid_print
         .catchError((error) => print("Failed to merge data: $error"));
   }
+
+  Future<AppUser?> getUser(String uid) async {
+    try {
+      DocumentSnapshot userSnapshot =
+          await _db.collection('users').doc(uid).get();
+
+      if (userSnapshot.exists) {
+        return AppUser.fromMap(
+            userSnapshot.data() as Map<String, dynamic>, uid);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print("Error fetching user: $e");
+      return null;
+    }
+  }
+
+  Future<bool> doesUserExist(AuthUser authUser) async {
+    final existingUser = await DatabaseService().getUser(authUser.uid);
+    return existingUser != null;
+  }
 }

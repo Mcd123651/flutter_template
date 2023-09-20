@@ -8,8 +8,8 @@ import 'models/userModel.dart';
 // identify if authenticated.
 // if not auth: go to sign in screen
 // if auth: stream the AppUser ( Wrapper 2 )
-class Wrapper extends StatelessWidget {
-  Wrapper({Key? key}) : super(key: key);
+class AuthWrapper extends StatelessWidget {
+  AuthWrapper({Key? key}) : super(key: key);
 
   final _dbService = DatabaseService(); // Single instance
 
@@ -19,11 +19,33 @@ class Wrapper extends StatelessWidget {
     if (authUser == null) {
       return const LoginScreen();
     } else {
-      _dbService.createUser(authUser); // Reuse instance
-      return StreamProvider<AppUser?>.value(
-        initialData: null,
-        value: _dbService.streamAppUser(authUser), // Reuse instance
-        child: const Wrapper2(),
+      return FutureBuilder<bool>(
+        future: _dbService.doesUserExist(authUser),
+        builder: (context, snapshot) {
+          // If we're still waiting for the check, return a loader
+          if (!snapshot.hasData) {
+            return const Scaffold(
+              backgroundColor: Colors.white,
+              body: Center(
+                child: CircularProgressIndicator(
+                  semanticsLabel: 'Linear progress indicator',
+                ),
+              ),
+            );
+          }
+
+          // If the user doesn't exist in the DB, create them
+          if (!snapshot.data!) {
+            DatabaseService().createUser(authUser);
+          }
+
+          // Now proceed to stream the AppUser
+          return StreamProvider<AppUser?>.value(
+            initialData: null,
+            value: DatabaseService().streamAppUser(authUser),
+            child: const UserDataWrapper(),
+          );
+        },
       );
     }
   }
@@ -31,18 +53,23 @@ class Wrapper extends StatelessWidget {
 
 // circular progress bar while waiting for AppUser to start streaming
 // once complete -> navigate to routes page.
-class Wrapper2 extends StatelessWidget {
-  const Wrapper2({Key? key}) : super(key: key);
+class UserDataWrapper extends StatelessWidget {
+  const UserDataWrapper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final appUser = Provider.of<AppUser?>(context);
     if (appUser == null) {
-      return const CircularProgressIndicator(
-        semanticsLabel: 'Linear progress indicator',
+      return const Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: CircularProgressIndicator(
+            semanticsLabel: 'Linear progress indicator',
+          ),
+        ),
       );
     } else {
-      return const MainScreen();
+      return const RouterScreen();
     }
   }
 }

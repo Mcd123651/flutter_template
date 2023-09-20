@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ],
         builder: (context, snapshot) {
           return MaterialApp(
-            home: Wrapper(),
+            home: AuthWrapper(),
           );
         });
   }

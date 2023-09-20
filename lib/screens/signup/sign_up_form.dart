@@ -66,7 +66,7 @@ class _SignUpFormState extends State<SignUpForm> {
         _passwordController.text,
       );
       Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (_) => Wrapper()), (route) => false);
+          MaterialPageRoute(builder: (_) => AuthWrapper()), (route) => false);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         ShowMessageHelper.showMessage(
