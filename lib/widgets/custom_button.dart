@@ -1,8 +1,9 @@
 // Required Flutter package for material design widgets.
 import 'package:flutter/material.dart';
+import 'package:flutter_template/res/app_theme.dart';
+import 'package:provider/provider.dart';
 
 // Importing custom color resources.
-import '../res/custom_colors.dart';
 
 // This widget provides a customizable button with a specific style.
 class CustomButton extends StatelessWidget {
@@ -18,6 +19,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<AppTheme>(context);
     return Row(
       children: [
         // Using the 'Expanded' widget to ensure the button takes the full width available within its parent.
@@ -34,8 +36,8 @@ class CustomButton extends StatelessWidget {
               child: Ink(
                 // Applying a custom decoration to the button.
                 decoration: BoxDecoration(
-                    color: CustomColors
-                        .firebaseOrange, // Setting the button's color.
+                    color: theme.currentTheme
+                        .primaryColor, // Setting the button's color.
                     borderRadius: BorderRadius.circular(
                         12.0)), // Applying rounded edges to the decoration.
                 child: Container(

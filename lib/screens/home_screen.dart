@@ -1,10 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:flutter_template/res/custom_colors.dart';
+import 'package:flutter_template/res/app_theme.dart';
 import 'package:provider/provider.dart';
 import '../models/userModel.dart';
-import '../widgets/app_bar_title.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,13 +16,20 @@ class _UserHomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final appUser = Provider.of<AppUser>(context);
+    final theme = Provider.of<AppTheme>(context);
 
     return Scaffold(
-      backgroundColor: CustomColors.firebaseNavy,
+      backgroundColor: theme.currentTheme.colorScheme.background,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: CustomColors.firebaseNavy,
-        title: AppBarTitle(title: 'Home Screen'),
+        backgroundColor: theme.currentTheme.colorScheme.primary,
+        title: Text(
+          'Home Screen',
+          style: TextStyle(
+            fontSize: 18.0,
+            color: theme.currentTheme.colorScheme.onPrimary,
+          ),
+        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -45,24 +51,25 @@ class _UserHomePageState extends State<HomePage> {
   }
 
   Widget _userImage(String url) {
+    final theme = Provider.of<AppTheme>(context);
     return ClipOval(
       child: Material(
-        color: CustomColors.firebaseGrey.withOpacity(0.3),
+        color: theme.currentTheme.colorScheme.onPrimary,
         child: Image.network(url, fit: BoxFit.fitHeight),
       ),
     );
   }
 
   Widget _defaultUserIcon() {
+    final theme = Provider.of<AppTheme>(context);
     return ClipOval(
       child: Material(
-        color: CustomColors.firebaseGrey.withOpacity(0.3),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Icon(
             Icons.person,
             size: 60,
-            color: CustomColors.firebaseGrey,
+            color: theme.currentTheme.colorScheme.onPrimary,
           ),
         ),
       ),

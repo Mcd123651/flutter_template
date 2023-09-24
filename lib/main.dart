@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/res/app_theme.dart';
 import 'package:flutter_template/utils/authentication.dart';
 import 'package:flutter_template/wrapper.dart';
 import 'models/userModel.dart';
@@ -17,15 +18,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        StreamProvider<AuthUser?>.value(
-          initialData: null,
-          value: AuthService().onAuthStateChanged,
-        ),
-      ],
-      child: MaterialApp(
-        home: AuthWrapper(),
-      ),
-    );
+        providers: [
+          StreamProvider<AuthUser?>.value(
+            initialData: null,
+            value: AuthService().onAuthStateChanged,
+          ),
+          ChangeNotifierProvider<AppTheme>(
+            // <-- Add this provider
+            create: (context) => AppTheme(),
+          ),
+        ],
+        builder: (context, snapshot) {
+          return MaterialApp(
+            // launch wrapper.dart
+            home: AuthWrapper(),
+          );
+        });
   }
 }

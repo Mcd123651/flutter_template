@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_template/models/userModel.dart';
-import 'package:flutter_template/res/custom_colors.dart';
+import 'package:flutter_template/res/app_theme.dart';
 import 'package:flutter_template/utils/authentication.dart';
-import 'package:flutter_template/widgets/app_bar_title.dart';
+import 'package:flutter_template/widgets/theme_toggle_button.dart';
 import 'package:provider/provider.dart';
 //import 'package:acehole/widgets/bottom_nav.dart';
 
@@ -26,18 +26,25 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget build(BuildContext context) {
     // Using Provider to fetch the user data from the AppUser model.
     final appUser = Provider.of<AppUser>(context);
+    final theme = Provider.of<AppTheme>(context);
 
     // The main scaffold of the UserInfoScreen.
     return Scaffold(
       // Setting background color.
-      backgroundColor: CustomColors.firebaseNavy,
+      backgroundColor: theme.currentTheme.colorScheme.background,
 
       // AppBar with title 'Profile'.
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: CustomColors.firebaseNavy,
-        title: AppBarTitle(title: 'Profile'),
-      ),
+          elevation: 0,
+          backgroundColor: theme.currentTheme.colorScheme.primary,
+          title: Text(
+            'Settings',
+            style: TextStyle(
+              fontSize: 18.0,
+              color: theme.currentTheme.colorScheme.onPrimary,
+            ),
+          ),
+          actions: const [ThemeToggleButton()]),
 
       // Main content of the UserInfoScreen.
       body: SafeArea(
@@ -60,7 +67,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               appUser.photoURL != null
                   ? ClipOval(
                       child: Material(
-                        color: CustomColors.firebaseGrey.withOpacity(0.3),
                         child: Image.network(
                           appUser.photoURL!,
                           fit: BoxFit.fitHeight,
@@ -69,13 +75,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     )
                   : ClipOval(
                       child: Material(
-                        color: CustomColors.firebaseGrey.withOpacity(0.3),
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Icon(
                             Icons.person,
                             size: 60,
-                            color: CustomColors.firebaseGrey,
                           ),
                         ),
                       ),
@@ -84,16 +88,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               // Greeting text 'Hello' and the user's display name.
               Text(
                 'Hello',
-                style: TextStyle(
-                  color: CustomColors.firebaseGrey,
-                  fontSize: 26,
-                ),
               ),
               SizedBox(height: 8.0),
               Text(
                 appUser.displayName!,
                 style: TextStyle(
-                  color: CustomColors.firebaseYellow,
                   fontSize: 26,
                 ),
               ),
@@ -102,7 +101,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               Text(
                 '( ${appUser.email!} )',
                 style: TextStyle(
-                  color: CustomColors.firebaseOrange,
                   fontSize: 20,
                   letterSpacing: 0.5,
                 ),
@@ -111,17 +109,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               // Information about signing out.
               Text(
                 'You are now signed in using your Google account. To sign out of your account click the "Sign Out" button below.',
-                style: TextStyle(
-                    color: CustomColors.firebaseGrey.withOpacity(0.8),
-                    fontSize: 14,
-                    letterSpacing: 0.2),
+                style: TextStyle(fontSize: 14, letterSpacing: 0.2),
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    Colors.redAccent,
-                  ),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -139,7 +131,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
                       letterSpacing: 2,
                     ),
                   ),

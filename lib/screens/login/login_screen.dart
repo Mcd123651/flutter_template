@@ -1,8 +1,9 @@
 // Package imports.
 import 'package:flutter/material.dart';
+import 'package:flutter_template/res/app_theme.dart';
 
 // Relative imports.
-import 'package:flutter_template/res/custom_colors.dart';
+import 'package:provider/provider.dart';
 import 'login_form.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -20,13 +21,14 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<AppTheme>(context);
     return Scaffold(
       // Avoids resizing the screen when keyboard appears.
       resizeToAvoidBottomInset: false,
 
       body: Container(
         decoration: BoxDecoration(
-          color: CustomColors.firebaseNavy,
+          color: theme.currentTheme.colorScheme.background,
         ),
         child: Stack(
           children: [
@@ -35,7 +37,6 @@ class LoginScreen extends StatelessWidget {
               top: iconTopPosition,
               child: Icon(
                 Icons.lock_outline,
-                color: Colors.white12,
                 size: iconSize,
               ),
             ),

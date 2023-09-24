@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/res/custom_colors.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_template/res/app_theme.dart';
 import 'package:flutter_template/screens/signup/sign_up_form.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -9,11 +10,12 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<AppTheme>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
-          color: CustomColors.firebaseNavy,
+          color: theme.currentTheme.colorScheme.background,
         ),
         child: const Stack(
           children: [
@@ -22,7 +24,6 @@ class SignUpScreen extends StatelessWidget {
               top: 95.0,
               child: Icon(
                 Icons.lock_outline,
-                color: Colors.white12,
                 size: 60.0,
               ),
             ),

@@ -1,12 +1,13 @@
 // Flutter and Firebase package imports.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_template/res/app_theme.dart';
 
 // Relative imports.
-import 'package:flutter_template/res/custom_colors.dart';
 import 'package:flutter_template/screens/login/login_screen.dart';
 import '../../utils/authentication.dart';
-import '../../utils/show_message_helper.dart';
+import '../../widgets/show_message_helper.dart';
 import '../../wrapper.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -91,6 +92,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<AppTheme>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,8 +100,7 @@ class _SignUpFormState extends State<SignUpForm> {
         // Registration header
         const Text(
           'Register',
-          style: TextStyle(
-              fontSize: 36.0, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 18.0),
         const Text(
@@ -107,7 +108,6 @@ class _SignUpFormState extends State<SignUpForm> {
           style: TextStyle(
             fontSize: 16.0,
             fontWeight: FontWeight.normal,
-            color: Colors.white,
             letterSpacing: 0.3,
           ),
         ),
@@ -115,21 +115,13 @@ class _SignUpFormState extends State<SignUpForm> {
         // Email input field
         TextField(
           controller: _emailController,
-          style: const TextStyle(color: Colors.white),
           decoration: const InputDecoration(
-            labelStyle: TextStyle(color: Colors.white70),
-            floatingLabelStyle: TextStyle(color: Colors.white70),
             border: OutlineInputBorder(),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-            ),
+            enabledBorder: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(),
             labelText: 'Email',
             prefixIcon: Icon(
               Icons.email,
-              color: Colors.white70,
             ),
           ),
         ),
@@ -137,21 +129,13 @@ class _SignUpFormState extends State<SignUpForm> {
         TextField(
           controller: _passwordController,
           obscureText: _visibility,
-          style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            labelStyle: const TextStyle(color: Colors.white70),
-            floatingLabelStyle: const TextStyle(color: Colors.white70),
             border: const OutlineInputBorder(),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-            ),
+            enabledBorder: const OutlineInputBorder(),
+            focusedBorder: const OutlineInputBorder(),
             labelText: 'Password',
             prefixIcon: const Icon(
               Icons.password,
-              color: Colors.white70,
             ),
             suffixIcon: IconButton(
               onPressed: () => setState(() {
@@ -159,7 +143,6 @@ class _SignUpFormState extends State<SignUpForm> {
               }),
               icon: Icon(
                 _visibility ? Icons.visibility_off : Icons.visibility,
-                color: Colors.white70,
               ),
             ),
           ),
@@ -168,21 +151,13 @@ class _SignUpFormState extends State<SignUpForm> {
         TextField(
           controller: _passwordConfirmController,
           obscureText: _visibilityConf,
-          style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            labelStyle: const TextStyle(color: Colors.white70),
-            floatingLabelStyle: const TextStyle(color: Colors.white70),
             border: const OutlineInputBorder(),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-            ),
+            enabledBorder: const OutlineInputBorder(),
+            focusedBorder: const OutlineInputBorder(),
             labelText: 'Confirm password',
             prefixIcon: const Icon(
               Icons.password,
-              color: Colors.white70,
             ),
             suffixIcon: IconButton(
               onPressed: () => setState(() {
@@ -190,7 +165,6 @@ class _SignUpFormState extends State<SignUpForm> {
               }),
               icon: Icon(
                 _visibility ? Icons.visibility_off : Icons.visibility,
-                color: Colors.white70,
               ),
             ),
           ),
@@ -207,7 +181,7 @@ class _SignUpFormState extends State<SignUpForm> {
                           borderRadius: BorderRadius.circular(12.0))),
                   child: Ink(
                     decoration: BoxDecoration(
-                        color: CustomColors.firebaseOrange,
+                        color: theme.currentTheme.primaryColor,
                         borderRadius: BorderRadius.circular(12.0)),
                     child: Container(
                       height: 50.0,
@@ -235,12 +209,11 @@ class _SignUpFormState extends State<SignUpForm> {
               RichText(
                 text: const TextSpan(
                   text: 'Already have an account? ',
-                  style: TextStyle(color: Colors.white70, fontSize: 16.0),
+                  style: TextStyle(fontSize: 16.0),
                   children: <TextSpan>[
                     TextSpan(
                         text: 'Login',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
               )

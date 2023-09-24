@@ -3,8 +3,8 @@
 
 // Required Flutter package for material design widgets
 import 'package:flutter/material.dart';
-// Importing custom color resources
-import 'package:flutter_template/res/custom_colors.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_template/res/app_theme.dart';
 
 // This widget is designed to represent the title within an AppBar.
 class AppBarTitle extends StatelessWidget {
@@ -17,6 +17,7 @@ class AppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<AppTheme>(context);
     return Row(
       crossAxisAlignment:
           CrossAxisAlignment.start, // Aligning children to the start vertically
@@ -26,8 +27,8 @@ class AppBarTitle extends StatelessWidget {
         Text(
           title, // Setting the title text
           style: TextStyle(
-            color: CustomColors
-                .firebaseYellow, // Using a custom yellow color for the title
+            color: theme.currentTheme
+                .primaryColor, // Using a custom yellow color for the title
             fontSize: 18, // Setting font size
           ),
         ),

@@ -3,9 +3,11 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_template/res/app_theme.dart';
 import 'package:flutter_template/screens/home_screen.dart';
 import 'package:flutter_template/screens/screen_2.dart';
 import 'package:flutter_template/screens/screen_3.dart';
+import 'package:provider/provider.dart';
 
 /// RouterScreen widget: The primary role of this widget is to manage and display
 /// different pages/screens based on the selected item from the bottom navigation bar.
@@ -36,6 +38,7 @@ class _MainScreenState extends State<RouterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<AppTheme>(context);
     return Scaffold(
       // Common background color.
       backgroundColor: Colors.white,
@@ -57,6 +60,8 @@ class _MainScreenState extends State<RouterScreen> {
             _selectedIndex = index;
           });
         },
+        selectedItemColor: theme.currentTheme.colorScheme
+            .primary, // This line sets the selected item color to the theme's primary color.
       ),
 
       // Depending on the value of _selectedIndex, display the associated screen.

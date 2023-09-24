@@ -1,48 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_template/res/app_theme.dart'; // Assuming the AppTheme class is in this directory.
 
-// A stateless widget that represents a styled TextField specifically for entering an email address.
 class TextFieldEmail extends StatelessWidget {
-  // Constructor for the TextFieldEmail widget.
-  // It requires a TextEditingController to manage the input value of the TextField.
   const TextFieldEmail({
     Key? key,
     required TextEditingController emailController,
-  })  : _emailController =
-            emailController, // Initializing the private _emailController variable with the provided emailController.
-        super(key: key); // Calling the parent constructor (superclass).
+  })  : _emailController = emailController,
+        super(key: key);
 
-  // Private variable to store the TextEditingController, which manages the input value of the TextField.
   final TextEditingController _emailController;
 
   @override
   Widget build(BuildContext context) {
-    // Returning a styled TextField widget.
+    final theme = Provider.of<AppTheme>(context);
+
     return TextField(
-      controller: _emailController, // Assigning the controller.
-      style: const TextStyle(
-          color: Colors.white), // Setting the text color to white.
-      decoration: const InputDecoration(
-        labelStyle:
-            TextStyle(color: Colors.white70), // Style for the floating label.
-        floatingLabelStyle: TextStyle(
-            color: Colors
-                .white70), // Style when the label is floating above the TextField.
-        border:
-            OutlineInputBorder(), // Setting the border style of the TextField.
-        enabledBorder: OutlineInputBorder(
-          // Border style when the TextField is enabled.
-          borderSide: BorderSide(color: Colors.white70),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // Border style when the TextField is in focus.
-          borderSide: BorderSide(color: Colors.white70),
-        ),
-        labelText:
-            'Email', // Label text that appears above the TextField when it's in focus or has content.
-        prefixIcon: Icon(
-          // Icon displayed at the beginning of the TextField.
+      controller: _emailController,
+      style: theme.currentTheme.textTheme.headlineMedium,
+      decoration: InputDecoration(
+        labelStyle: theme.currentTheme.textTheme.headlineMedium,
+        floatingLabelStyle: theme.currentTheme.textTheme.headlineMedium,
+        border: const OutlineInputBorder(),
+        enabledBorder: const OutlineInputBorder(),
+        focusedBorder: const OutlineInputBorder(),
+        focusColor: theme.currentTheme.colorScheme.primary,
+        labelText: 'Email',
+        prefixIcon: const Icon(
           Icons.email,
-          color: Colors.white70,
         ),
       ),
     );

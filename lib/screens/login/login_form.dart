@@ -2,11 +2,12 @@
 
 // Flutter package imports.
 import 'package:flutter/material.dart';
+import 'package:flutter_template/res/app_theme.dart';
 import 'package:flutter_template/screens/login/reset_password.dart';
 import 'package:flutter_template/utils/authentication.dart';
+import 'package:provider/provider.dart';
 
 // Relative imports.
-import '../../res/custom_colors.dart';
 import '../../widgets/google_sign_in_button.dart';
 import '../../widgets/textfield_email.dart';
 import '../../wrapper.dart';
@@ -47,24 +48,20 @@ class _LoginForm extends State<LoginForm> {
   }
 
   Widget _buildWelcomeText() {
+    final theme = Provider.of<AppTheme>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         SizedBox(height: 100.0),
         Text(
           'Hello,',
-          style: TextStyle(
-              fontSize: 36.0, fontWeight: FontWeight.bold, color: Colors.white),
+          style: theme.currentTheme.textTheme.headlineMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 18.0),
         Text(
           'This is a FireAuth flutter application template',
-          style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.normal,
-            color: Colors.white,
-            letterSpacing: 0.3,
-          ),
+          style: theme.currentTheme.textTheme.headlineMedium,
         ),
         SizedBox(height: 50.0),
       ],
@@ -82,27 +79,21 @@ class _LoginForm extends State<LoginForm> {
   }
 
   Widget _buildPasswordInput() {
+    final theme = Provider.of<AppTheme>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
           controller: passwordController,
           obscureText: _visibility,
-          style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            labelStyle: const TextStyle(color: Colors.white70),
-            floatingLabelStyle: const TextStyle(color: Colors.white70),
             border: const OutlineInputBorder(),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-            ),
+            enabledBorder: const OutlineInputBorder(),
+            focusedBorder: const OutlineInputBorder(),
+            focusColor: theme.currentTheme.colorScheme.primary,
             labelText: 'Password',
             prefixIcon: const Icon(
               Icons.password,
-              color: Colors.white70,
             ),
             suffixIcon: IconButton(
               onPressed: () => setState(() {
@@ -110,7 +101,7 @@ class _LoginForm extends State<LoginForm> {
               }),
               icon: Icon(
                 _visibility ? Icons.visibility_off : Icons.visibility,
-                color: Colors.white70,
+                color: theme.currentTheme.colorScheme.primary,
               ),
             ),
           ),
@@ -121,6 +112,7 @@ class _LoginForm extends State<LoginForm> {
   }
 
   Widget _buildLoginButton() {
+    final theme = Provider.of<AppTheme>(context);
     return Row(
       children: [
         Expanded(
@@ -143,16 +135,19 @@ class _LoginForm extends State<LoginForm> {
                       borderRadius: BorderRadius.circular(12.0))),
               child: Ink(
                 decoration: BoxDecoration(
-                    color: CustomColors.firebaseOrange,
+                    color: theme.currentTheme.colorScheme.primary,
                     borderRadius: BorderRadius.circular(12.0)),
                 child: Container(
                   height: 50.0,
                   alignment: Alignment.center,
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 12.0),
                     child: Text(
                       'Login',
-                      style: TextStyle(fontSize: 18.0),
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        color: theme.currentTheme.colorScheme.onPrimary,
+                      ),
                     ),
                   ),
                 ),
@@ -178,6 +173,7 @@ class _LoginForm extends State<LoginForm> {
   }
 
   Widget _buildForgotPasswordOption() {
+    final theme = Provider.of<AppTheme>(context);
     return Padding(
       padding: EdgeInsets.only(top: 50),
       child: Row(
@@ -190,12 +186,12 @@ class _LoginForm extends State<LoginForm> {
                   MaterialPageRoute(
                       builder: (context) => const ResetPassword()));
             },
-            child: const Text(
+            child: Text(
               'Forgot Password',
               style: TextStyle(
-                  color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16.0),
+                  fontSize: 16.0,
+                  color: theme.currentTheme.colorScheme.primary),
             ),
           ),
         ],
@@ -204,6 +200,7 @@ class _LoginForm extends State<LoginForm> {
   }
 
   Widget _buildSignUpOption() {
+    final theme = Provider.of<AppTheme>(context);
     return GestureDetector(
       onTap: () => Navigator.push(context,
           MaterialPageRoute(builder: (context) => const SignUpScreen())),
@@ -212,14 +209,15 @@ class _LoginForm extends State<LoginForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           RichText(
-            text: const TextSpan(
+            text: TextSpan(
               text: 'Don\'t have an account, yet? ',
-              style: TextStyle(color: Colors.white70, fontSize: 16.0),
+              style: theme.currentTheme.textTheme.headlineMedium,
               children: <TextSpan>[
                 TextSpan(
                     text: 'Sign Up',
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.bold,
+                        color: theme.currentTheme.colorScheme.primary)),
               ],
             ),
           )

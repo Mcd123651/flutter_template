@@ -1,7 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_template/screens/login/login_screen.dart';
 import 'package:flutter_template/utils/db.dart';
-import 'package:flutter_template/utils/router.dart';
+import 'package:flutter_template/router.dart';
 import 'package:provider/provider.dart';
 import 'models/userModel.dart';
 
@@ -20,6 +22,7 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     // Fetch the current authentication state using the Provider
     final authUser = Provider.of<AuthUser?>(context);
+    print('AuthUser is: ${authUser != null ? 'present' : 'null'}');
 
     // If the user is not authenticated, display the login screen.
     if (authUser == null) {
@@ -30,6 +33,8 @@ class AuthWrapper extends StatelessWidget {
       return FutureBuilder<AppUser?>(
         future: _dbService.createUserAndFetch(authUser),
         builder: (context, snapshot) {
+          print('Database fetch connection state: ${snapshot.connectionState}');
+
           // If the future operation is complete
           if (snapshot.connectionState == ConnectionState.done) {
             // If there's an error, display the error screen

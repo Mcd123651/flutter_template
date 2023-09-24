@@ -1,35 +1,29 @@
-// Flutter package imports.
 import 'package:flutter/material.dart';
-
-// Relative imports.
+import 'package:provider/provider.dart';
+import 'package:flutter_template/res/app_theme.dart';
 import 'package:flutter_template/utils/authentication.dart';
-import '../../res/custom_colors.dart';
-import '../../utils/show_message_helper.dart';
+
+import '../../widgets/show_message_helper.dart';
 import '../../widgets/app_bar_title.dart';
 import '../../widgets/custom_button.dart';
 
 class ResetPassword extends StatelessWidget {
-  // Constructor with an optional key.
-  const ResetPassword({Key? key}) : super(key: key);
-
-  bool _isValidEmail(String email) {
-    return email.isNotEmpty && email.contains('@');
-  }
+  const ResetPassword({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<AppTheme>(context);
     final TextEditingController emailController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: CustomColors.firebaseNavy,
+        backgroundColor: theme.currentTheme.colorScheme.primary,
         title: AppBarTitle(title: 'Reset Password'),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          color: CustomColors.firebaseNavy,
-        ),
+        decoration: const BoxDecoration(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
           child: Column(
@@ -38,7 +32,6 @@ class ResetPassword extends StatelessWidget {
               const Text(
                 'Receive an email to\nreset your password',
                 style: TextStyle(
-                  color: Colors.white,
                   fontSize: 20.0,
                 ),
                 textAlign: TextAlign.center,
@@ -47,17 +40,22 @@ class ResetPassword extends StatelessWidget {
               TextField(controller: emailController),
               const SizedBox(height: 18.0),
               CustomButton(
-                text: 'Reset Password',
-                onPressed: () {
-                  if (!_isValidEmail(emailController.text)) {
-                    ShowMessageHelper.showMessage(
-                        context: context, text: 'Enter a valid email');
-                    return;
-                  }
-                  AuthService().resetPassword(email: emailController.text);
-                  Navigator.pop(context);
-                },
-              )
+                  text: 'Reset Password',
+                  onPressed: () {
+                    if (emailController.text.isEmpty) {
+                      ShowMessageHelper.showMessage(
+                          context: context, text: 'Enter a valide email');
+                      return;
+                    } else if (!emailController.text.contains('@')) {
+                      ShowMessageHelper.showMessage(
+                          context: context, text: 'Enter a valide email');
+                      return;
+                    }
+                    AuthService().resetPassword(
+                      email: emailController.text,
+                    );
+                    Navigator.pop(context);
+                  })
             ],
           ),
         ),

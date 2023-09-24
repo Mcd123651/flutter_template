@@ -2,7 +2,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:flutter_template/res/custom_colors.dart';
+import 'package:flutter_template/res/app_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../models/userModel.dart';
@@ -29,16 +29,17 @@ class _UserScreen2State extends State<Screen2> {
   Widget build(BuildContext context) {
     // Using Provider to get the user data from the AppUser model.
     final appUser = Provider.of<AppUser>(context);
+    final theme = Provider.of<AppTheme>(context);
 
     // The main scaffold of the Screen2.
     return Scaffold(
       // Using a custom color for the background.
-      backgroundColor: CustomColors.firebaseNavy,
+      backgroundColor: theme.currentTheme.colorScheme.background,
 
       // App bar with a custom title and background color.
       appBar: AppBar(
           elevation: 0,
-          backgroundColor: CustomColors.firebaseNavy,
+          backgroundColor: theme.currentTheme.colorScheme.primary,
           title: AppBarTitle(title: 'Screen 2')),
 
       // Main content of the Screen2.
