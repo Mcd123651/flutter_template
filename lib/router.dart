@@ -3,6 +3,7 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_template/models/userModel.dart';
 import 'package:flutter_template/res/app_theme.dart';
 import 'package:flutter_template/screens/home_screen.dart';
 import 'package:flutter_template/screens/screen_2.dart';
@@ -12,7 +13,9 @@ import 'package:provider/provider.dart';
 /// RouterScreen widget: The primary role of this widget is to manage and display
 /// different pages/screens based on the selected item from the bottom navigation bar.
 class RouterScreen extends StatefulWidget {
-  const RouterScreen({Key? key}) : super(key: key);
+  final AppUser appUser;
+
+  const RouterScreen({Key? key, required this.appUser}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -39,33 +42,36 @@ class _MainScreenState extends State<RouterScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<AppTheme>(context);
-    return Scaffold(
-      // Common background color.
-      backgroundColor: Colors.white,
+    return Provider<AppUser>.value(
+      value: widget.appUser, // Provide AppUser to descendants.
+      child: Scaffold(
+        // Common background color.
+        backgroundColor: Colors.white,
 
-      // BottomNavigationBar displays a row of items for navigation.
-      // Tapping on an item updates _selectedIndex which in turn changes the displayed screen.
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.fact_check), label: 'fact_check'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.manage_accounts), label: 'manage_accounts'),
-        ],
-        // When an item is tapped, we update the _selectedIndex with the new index and trigger a rebuild.
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        selectedItemColor: theme.currentTheme.colorScheme
-            .primary, // This line sets the selected item color to the theme's primary color.
+        // BottomNavigationBar displays a row of items for navigation.
+        // Tapping on an item updates _selectedIndex which in turn changes the displayed screen.
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.fact_check), label: 'fact_check'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.manage_accounts), label: 'manage_accounts'),
+          ],
+          // When an item is tapped, we update the _selectedIndex with the new index and trigger a rebuild.
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          selectedItemColor: theme.currentTheme.colorScheme
+              .primary, // This line sets the selected item color to the theme's primary color.
+        ),
+
+        // Depending on the value of _selectedIndex, display the associated screen.
+        body: _pageRoutes.elementAt(_selectedIndex),
       ),
-
-      // Depending on the value of _selectedIndex, display the associated screen.
-      body: _pageRoutes.elementAt(_selectedIndex),
     );
   }
 }

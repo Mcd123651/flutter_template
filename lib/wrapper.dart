@@ -129,7 +129,7 @@ class UserDataWrapper extends StatelessWidget {
       );
     } else {
       // If the AppUser data is available, navigate to the main RouterScreen.
-      return const RouterScreen();
+      return RouterScreen(appUser: appUser); // Pass AppUser to RouterScreen.
     }
   }
 }
