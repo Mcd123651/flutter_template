@@ -5,9 +5,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_template/utils/authentication.dart';
+import 'package:flutter_template/wrapper.dart';
 
 // Importing the AuthWrapper, which seems to serve as a root widget that determines if the user is authenticated.
-import '../wrapper.dart';
 
 // A stateful widget that represents a button for Google Sign-In.
 class GoogleSignInButton extends StatefulWidget {

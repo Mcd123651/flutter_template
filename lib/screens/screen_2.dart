@@ -3,10 +3,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_template/res/app_theme.dart';
+import 'package:flutter_template/widgets/core/app_bar_title.dart';
 import 'package:provider/provider.dart';
-
 import '../models/userModel.dart';
-import '../widgets/app_bar_title.dart';
 
 // Screen2 widget is a StatefulWidget.
 class Screen2 extends StatefulWidget {

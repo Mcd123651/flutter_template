@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/res/app_theme.dart';
 import 'package:flutter_template/screens/login/reset_password.dart';
 import 'package:flutter_template/utils/authentication.dart';
+import 'package:flutter_template/widgets/core/custom_button.dart';
+import 'package:flutter_template/widgets/core/custom_input_field.dart';
+import 'package:flutter_template/widgets/core/google_sign_in_button.dart';
 import 'package:provider/provider.dart';
 
 // Relative imports.
-import '../../widgets/google_sign_in_button.dart';
-import '../../widgets/textfield_email.dart';
 import '../../wrapper.dart';
 import '../signup/sign_up_screen.dart';
 
@@ -19,7 +20,6 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginForm extends State<LoginForm> {
-  bool _visibility = true;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -71,40 +71,25 @@ class _LoginForm extends State<LoginForm> {
   Widget _buildEmailInput() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFieldEmail(emailController: emailController),
-        const SizedBox(height: 8.0),
+      children: const [
+        CustomInpuField(
+          label: 'Email',
+          prefixIcon: Icons.email,
+        ),
+        SizedBox(height: 8.0),
       ],
     );
   }
 
   Widget _buildPasswordInput() {
-    final theme = Provider.of<AppTheme>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextField(
+        CustomInpuField(
           controller: passwordController,
-          obscureText: _visibility,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            enabledBorder: const OutlineInputBorder(),
-            focusedBorder: const OutlineInputBorder(),
-            focusColor: theme.currentTheme.colorScheme.primary,
-            labelText: 'Password',
-            prefixIcon: const Icon(
-              Icons.password,
-            ),
-            suffixIcon: IconButton(
-              onPressed: () => setState(() {
-                _visibility = !_visibility;
-              }),
-              icon: Icon(
-                _visibility ? Icons.visibility_off : Icons.visibility,
-                color: theme.currentTheme.colorScheme.primary,
-              ),
-            ),
-          ),
+          label: 'Password',
+          prefixIcon: Icons.password,
+          isPassword: true,
         ),
         const SizedBox(height: 18.0),
       ],
@@ -112,50 +97,17 @@ class _LoginForm extends State<LoginForm> {
   }
 
   Widget _buildLoginButton() {
-    final theme = Provider.of<AppTheme>(context);
-    return Row(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                AuthService().signInWithEmailAndPassword(
-                  emailController.text,
-                  passwordController.text,
-                );
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (_) => AuthWrapper()),
-                    (route) => false);
-              },
-              style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0))),
-              child: Ink(
-                decoration: BoxDecoration(
-                    color: theme.currentTheme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(12.0)),
-                child: Container(
-                  height: 50.0,
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: theme.currentTheme.colorScheme.onPrimary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        )
-      ],
+    return CustomButton(
+      onPressed: () {
+        AuthService().signInWithEmailAndPassword(
+          emailController.text,
+          passwordController.text,
+        );
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (_) => AuthWrapper()), (route) => false);
+      },
+      label: 'Login',
+      icon: Icons.login, // Your choice of icon
     );
   }
 

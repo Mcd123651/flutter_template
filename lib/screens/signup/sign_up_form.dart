@@ -1,13 +1,15 @@
 // Flutter and Firebase package imports.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/widgets/core/custom_button.dart';
+import 'package:flutter_template/widgets/core/custom_input_field.dart';
+import 'package:flutter_template/widgets/core/show_message_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_template/res/app_theme.dart';
 
 // Relative imports.
 import 'package:flutter_template/screens/login/login_screen.dart';
 import '../../utils/authentication.dart';
-import '../../widgets/show_message_helper.dart';
 import '../../wrapper.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -98,105 +100,39 @@ class _SignUpFormState extends State<SignUpForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Registration header
-        const Text(
+        Text(
           'Register',
-          style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
+          style: theme.currentTheme.textTheme.displayMedium,
         ),
         const SizedBox(height: 18.0),
-        const Text(
-          'Please register account for access.',
-          style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.normal,
-            letterSpacing: 0.3,
-          ),
-        ),
+        Text('Please register account for access.',
+            style: theme.currentTheme.textTheme.displayMedium),
         const SizedBox(height: 80.0),
         // Email input field
-        TextField(
+        CustomInpuField(
           controller: _emailController,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            enabledBorder: OutlineInputBorder(),
-            focusedBorder: OutlineInputBorder(),
-            labelText: 'Email',
-            prefixIcon: Icon(
-              Icons.email,
-            ),
-          ),
+          label: 'Email',
+          prefixIcon: Icons.email,
         ),
         const SizedBox(height: 8.0),
-        TextField(
+        CustomInpuField(
           controller: _passwordController,
-          obscureText: _visibility,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            enabledBorder: const OutlineInputBorder(),
-            focusedBorder: const OutlineInputBorder(),
-            labelText: 'Password',
-            prefixIcon: const Icon(
-              Icons.password,
-            ),
-            suffixIcon: IconButton(
-              onPressed: () => setState(() {
-                _visibility = !_visibility;
-              }),
-              icon: Icon(
-                _visibility ? Icons.visibility_off : Icons.visibility,
-              ),
-            ),
-          ),
+          label: 'Password',
+          prefixIcon: Icons.email,
+          isPassword: true,
         ),
         const SizedBox(height: 8.0),
-        TextField(
+        CustomInpuField(
           controller: _passwordConfirmController,
-          obscureText: _visibilityConf,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            enabledBorder: const OutlineInputBorder(),
-            focusedBorder: const OutlineInputBorder(),
-            labelText: 'Confirm password',
-            prefixIcon: const Icon(
-              Icons.password,
-            ),
-            suffixIcon: IconButton(
-              onPressed: () => setState(() {
-                _visibilityConf = !_visibilityConf;
-              }),
-              icon: Icon(
-                _visibility ? Icons.visibility_off : Icons.visibility,
-              ),
-            ),
-          ),
+          label: 'Confirm Password',
+          prefixIcon: Icons.email,
+          isPassword: true,
         ),
         const SizedBox(height: 18.0),
-        Row(
-          children: [
-            Expanded(
-              child: ElevatedButton(
-                  onPressed: _signUp,
-                  style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0))),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                        color: theme.currentTheme.primaryColor,
-                        borderRadius: BorderRadius.circular(12.0)),
-                    child: Container(
-                      height: 50.0,
-                      alignment: Alignment.center,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12.0),
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                      ),
-                    ),
-                  )),
-            )
-          ],
+        CustomButton(
+          onPressed: _signUp,
+          label: 'Sign Up',
+          icon: Icons.app_registration, // Your choice of icon
         ),
         const SizedBox(height: 18.0),
         GestureDetector(
@@ -207,13 +143,16 @@ class _SignUpFormState extends State<SignUpForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   text: 'Already have an account? ',
                   style: TextStyle(fontSize: 16.0),
                   children: <TextSpan>[
                     TextSpan(
                         text: 'Login',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: theme
+                                .currentTheme.colorScheme.onPrimaryContainer)),
                   ],
                 ),
               )

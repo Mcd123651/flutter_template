@@ -1,14 +1,13 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
+// ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:flutter_template/models/userModel.dart';
 import 'package:flutter_template/res/app_theme.dart';
 import 'package:flutter_template/utils/authentication.dart';
-import 'package:flutter_template/widgets/theme_toggle_button.dart';
+import 'package:flutter_template/widgets/core/app_bar_title.dart';
+import 'package:flutter_template/widgets/core/theme_toggle_button.dart';
 import 'package:provider/provider.dart';
-//import 'package:acehole/widgets/bottom_nav.dart';
 
-// UserInfoScreen is a StatefulWidget.
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key? key}) : super(key: key);
 
@@ -18,121 +17,102 @@ class UserInfoScreen extends StatefulWidget {
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // Using Provider to fetch the user data from the AppUser model.
     final appUser = Provider.of<AppUser>(context);
     final theme = Provider.of<AppTheme>(context);
 
-    // The main scaffold of the UserInfoScreen.
     return Scaffold(
-      // Setting background color.
       backgroundColor: theme.currentTheme.colorScheme.background,
-
-      // AppBar with title 'Profile'.
       appBar: AppBar(
-          elevation: 0,
-          backgroundColor: theme.currentTheme.colorScheme.primary,
-          title: Text(
-            'Settings',
-            style: TextStyle(
-              fontSize: 18.0,
-              color: theme.currentTheme.colorScheme.onPrimary,
-            ),
-          ),
-          actions: const [ThemeToggleButton()]),
-
-      // Main content of the UserInfoScreen.
+        elevation: 0,
+        backgroundColor: theme.currentTheme.colorScheme.primary,
+        title: AppBarTitle(title: 'Profile'),
+        actions: const [ThemeToggleButton()],
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(
-            left: 16.0,
-            right: 16.0,
-            bottom: 20.0,
-          ),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-
-            // List of widgets displayed on the screen.
             children: [
-              // Two empty Row widgets, possibly placeholders for future content.
-              Row(),
-              Row(),
-
-              // Displaying the user's profile photo or a placeholder icon if the photo URL is null.
               appUser.photoURL != null
                   ? ClipOval(
                       child: Material(
+                        color: theme.currentTheme.colorScheme.surface,
                         child: Image.network(
                           appUser.photoURL!,
                           fit: BoxFit.fitHeight,
+                          width: 100,
+                          height: 100,
                         ),
                       ),
                     )
                   : ClipOval(
                       child: Material(
+                        color: theme.currentTheme.colorScheme.surface,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Icon(
                             Icons.person,
                             size: 60,
+                            color: theme.currentTheme.colorScheme.onSurface,
                           ),
                         ),
                       ),
                     ),
-              SizedBox(height: 16.0),
-              // Greeting text 'Hello' and the user's display name.
+              const SizedBox(height: 16.0),
               Text(
                 'Hello',
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                appUser.displayName!,
                 style: TextStyle(
+                  color: theme.currentTheme.colorScheme.onBackground,
                   fontSize: 26,
                 ),
               ),
-              SizedBox(height: 8.0),
-              // Displaying the user's email.
+              const SizedBox(height: 8.0),
+              Text(
+                appUser.displayName!,
+                style: TextStyle(
+                  color: theme.currentTheme.colorScheme.onBackground,
+                  fontSize: 26,
+                ),
+              ),
+              const SizedBox(height: 8.0),
               Text(
                 '( ${appUser.email!} )',
                 style: TextStyle(
+                  color: theme.currentTheme.colorScheme.onBackground,
                   fontSize: 20,
-                  letterSpacing: 0.5,
                 ),
               ),
-              SizedBox(height: 24.0),
-              // Information about signing out.
+              const SizedBox(height: 24.0),
               Text(
                 'You are now signed in using your Google account. To sign out of your account click the "Sign Out" button below.',
-                style: TextStyle(fontSize: 14, letterSpacing: 0.2),
+                style: TextStyle(
+                  color: theme.currentTheme.colorScheme.onBackground,
+                  fontSize: 14,
+                ),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      theme.currentTheme.colorScheme.onPrimaryContainer),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  padding: MaterialStateProperty.all(const EdgeInsets.all(12)),
                 ),
-                // Sign Out button which, when pressed, will call the signOut method from AuthService.
                 onPressed: () async {
                   await AuthService.signOut(context: context);
                 },
-                child: Padding(
-                  padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                  child: Text(
-                    'Sign Out',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                    ),
+                child: const Text(
+                  'Sign Out',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

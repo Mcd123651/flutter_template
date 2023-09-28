@@ -32,14 +32,6 @@ class LoginScreen extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            const Positioned(
-              right: iconRightPosition,
-              top: iconTopPosition,
-              child: Icon(
-                Icons.lock_outline,
-                size: iconSize,
-              ),
-            ),
             Padding(
               padding: formPadding,
               child: LoginForm(),

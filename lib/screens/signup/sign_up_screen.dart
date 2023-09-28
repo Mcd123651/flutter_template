@@ -19,14 +19,6 @@ class SignUpScreen extends StatelessWidget {
         ),
         child: const Stack(
           children: [
-            Positioned(
-              right: 40.0,
-              top: 95.0,
-              child: Icon(
-                Icons.lock_outline,
-                size: 60.0,
-              ),
-            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.0),
               child: SignUpForm(),
