@@ -24,9 +24,6 @@ class _SignUpFormState extends State<SignUpForm> {
   late TextEditingController _passwordController;
   late TextEditingController _passwordConfirmController;
 
-  bool _visibility = true;
-  bool _visibilityConf = true;
-
   @override
   void initState() {
     super.initState();
@@ -145,7 +142,7 @@ class _SignUpFormState extends State<SignUpForm> {
               RichText(
                 text: TextSpan(
                   text: 'Already have an account? ',
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                   children: <TextSpan>[
                     TextSpan(
                         text: 'Login',
