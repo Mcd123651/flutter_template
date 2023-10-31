@@ -4,7 +4,7 @@
 // ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors, use_build_context_synchronously, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
-import 'package:flutter_template/utils/authentication.dart';
+import 'package:flutter_template/services/authentication.dart';
 import 'package:flutter_template/wrapper.dart';
 
 // Importing the AuthWrapper, which seems to serve as a root widget that determines if the user is authenticated.

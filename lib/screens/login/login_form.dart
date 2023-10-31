@@ -2,12 +2,12 @@
 
 // Flutter package imports.
 import 'package:flutter/material.dart';
-import 'package:flutter_template/res/app_theme.dart';
+import 'package:flutter_template/resources/app_theme.dart';
 import 'package:flutter_template/screens/login/reset_password.dart';
-import 'package:flutter_template/utils/authentication.dart';
-import 'package:flutter_template/widgets/core/custom_button.dart';
-import 'package:flutter_template/widgets/core/custom_input_field.dart';
-import 'package:flutter_template/widgets/core/google_sign_in_button.dart';
+import 'package:flutter_template/services/authentication.dart';
+import 'package:flutter_template/widgets/custom_button.dart';
+import 'package:flutter_template/widgets/custom_input_field.dart';
+import 'package:flutter_template/widgets/google_sign_in_button.dart';
 import 'package:provider/provider.dart';
 
 // Relative imports.
@@ -72,7 +72,7 @@ class _LoginForm extends State<LoginForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: const [
-        CustomInpuField(
+        CustomInputField(
           label: 'Email',
           prefixIcon: Icons.email,
         ),
@@ -85,7 +85,7 @@ class _LoginForm extends State<LoginForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomInpuField(
+        CustomInputField(
           controller: passwordController,
           label: 'Password',
           prefixIcon: Icons.password,

@@ -1,9 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:flutter_template/res/app_theme.dart';
+import 'package:flutter_template/resources/app_theme.dart';
 import 'package:provider/provider.dart';
-import '../models/userModel.dart';
+import '../../models/userModel.dart';
+import 'package:flutter_template/services/providers/user_notifier.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,8 +16,10 @@ class HomePage extends StatefulWidget {
 class _UserHomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final appUser = Provider.of<AppUser>(context);
+    final userNotifier = Provider.of<UserNotifier>(context, listen: false);
     final theme = Provider.of<AppTheme>(context);
+
+    AppUser appUser = userNotifier.appUser as AppUser;
 
     return Scaffold(
       backgroundColor: theme.currentTheme.colorScheme.background,

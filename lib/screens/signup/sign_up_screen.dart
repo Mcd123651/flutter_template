@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_template/res/app_theme.dart';
+import 'package:flutter_template/resources/app_theme.dart';
 import 'package:flutter_template/screens/signup/sign_up_form.dart';
 
 class SignUpScreen extends StatelessWidget {

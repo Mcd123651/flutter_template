@@ -1,6 +1,6 @@
 // Package imports.
 import 'package:flutter/material.dart';
-import 'package:flutter_template/res/app_theme.dart';
+import 'package:flutter_template/resources/app_theme.dart';
 
 // Relative imports.
 import 'package:provider/provider.dart';

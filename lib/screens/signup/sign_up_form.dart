@@ -1,15 +1,15 @@
 // Flutter and Firebase package imports.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/widgets/core/custom_button.dart';
-import 'package:flutter_template/widgets/core/custom_input_field.dart';
-import 'package:flutter_template/widgets/core/show_message_helper.dart';
+import 'package:flutter_template/widgets/custom_button.dart';
+import 'package:flutter_template/widgets/custom_input_field.dart';
+import 'package:flutter_template/widgets/show_message_helper.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_template/res/app_theme.dart';
+import 'package:flutter_template/resources/app_theme.dart';
 
 // Relative imports.
 import 'package:flutter_template/screens/login/login_screen.dart';
-import '../../utils/authentication.dart';
+import '../../services/authentication.dart';
 import '../../wrapper.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -74,8 +74,10 @@ class _SignUpFormState extends State<SignUpForm> {
         _emailController.text,
         _passwordController.text,
       );
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (_) => AuthWrapper()), (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const AuthWrapper()),
+          (route) => false);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         ShowMessageHelper.showMessage(
@@ -106,20 +108,20 @@ class _SignUpFormState extends State<SignUpForm> {
             style: theme.currentTheme.textTheme.displayMedium),
         const SizedBox(height: 80.0),
         // Email input field
-        CustomInpuField(
+        CustomInputField(
           controller: _emailController,
           label: 'Email',
           prefixIcon: Icons.email,
         ),
         const SizedBox(height: 8.0),
-        CustomInpuField(
+        CustomInputField(
           controller: _passwordController,
           label: 'Password',
           prefixIcon: Icons.email,
           isPassword: true,
         ),
         const SizedBox(height: 8.0),
-        CustomInpuField(
+        CustomInputField(
           controller: _passwordConfirmController,
           label: 'Confirm Password',
           prefixIcon: Icons.email,

@@ -2,10 +2,10 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:flutter_template/res/app_theme.dart';
-import 'package:flutter_template/widgets/core/app_bar_title.dart';
+import 'package:flutter_template/resources/app_theme.dart';
+import 'package:flutter_template/services/providers/user_notifier.dart';
 import 'package:provider/provider.dart';
-import '../models/userModel.dart';
+import '../../models/userModel.dart';
 
 // Screen2 widget is a StatefulWidget.
 class Screen2 extends StatefulWidget {
@@ -27,8 +27,10 @@ class _UserScreen2State extends State<Screen2> {
   @override
   Widget build(BuildContext context) {
     // Using Provider to get the user data from the AppUser model.
-    final appUser = Provider.of<AppUser>(context);
+    final userNotifier = Provider.of<UserNotifier>(context, listen: false);
     final theme = Provider.of<AppTheme>(context);
+
+    AppUser appUser = userNotifier.appUser as AppUser;
 
     // The main scaffold of the Screen2.
     return Scaffold(
@@ -39,7 +41,7 @@ class _UserScreen2State extends State<Screen2> {
       appBar: AppBar(
           elevation: 0,
           backgroundColor: theme.currentTheme.colorScheme.primary,
-          title: AppBarTitle(title: 'Screen 2')),
+          title: const Text('Screen 2')),
 
       // Main content of the Screen2.
       body: SafeArea(
